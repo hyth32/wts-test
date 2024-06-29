@@ -5,6 +5,7 @@ import 'package:wts_test/features/products_list/widgets/widgets.dart';
 import 'package:wts_test/repositories/category/category.dart';
 import 'package:wts_test/repositories/product/bloc/product_bloc.dart';
 import 'package:wts_test/repositories/product/product.dart';
+import 'package:wts_test/widgets/loading_error.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -23,7 +24,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
     assert(args != null && args is Category, 'Invalid arguments');
     category = args as Category;
 
-    _productBloc = ProductBloc(GetIt.instance<ProductRepository>(), category);
+    _productBloc =
+        ProductBloc(GetIt.instance<AbstractProductRepository>(), category);
     _productBloc.add(LoadProductList());
 
     setState(() {});
@@ -40,9 +42,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
           builder: (context, state) {
             if (state is ProductStateLoaded) {
               return ListView.separated(
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 16,
-                      ),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 16),
                   padding: const EdgeInsets.all(12),
                   itemCount: state.productList.length,
                   itemBuilder: (context, index) {
@@ -55,6 +56,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       },
                     );
                   });
+            }
+            if (state is ProductStateLoadingFailure) {
+              return LoadingErrorWidget(onPressed: () {
+                _productBloc.add(LoadProductList());
+              });
             }
             return const Center(child: CircularProgressIndicator());
           },

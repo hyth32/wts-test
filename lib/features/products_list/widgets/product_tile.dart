@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wts_test/features/product/widgets/widgets.dart';
 import 'package:wts_test/repositories/product/product.dart';
+import 'package:wts_test/widgets/widgets.dart';
 
 
 class ProductTile extends StatelessWidget {

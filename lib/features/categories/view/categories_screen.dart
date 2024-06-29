@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:wts_test/features/categories/widgets/widgets.dart';
 import 'package:wts_test/repositories/category/bloc/category_bloc.dart';
 import 'package:wts_test/repositories/category/category.dart';
+import 'package:wts_test/widgets/loading_error.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -13,7 +14,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final _categoryBloc = CategoryBloc(GetIt.instance<CategoryRepository>());
+  final _categoryBloc = CategoryBloc(GetIt.instance<AbstractCategoryRepository>());
 
   @override
   void initState() {
@@ -47,6 +48,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               .pushNamed('/list', arguments: category);
                         });
                   });
+            }
+            if (state is CategoryListLoadingFailure) {
+              return LoadingErrorWidget(onPressed: () {
+                _categoryBloc.add(LoadCategoryList());
+              });
             }
             return const Center(child: CircularProgressIndicator());
           },
