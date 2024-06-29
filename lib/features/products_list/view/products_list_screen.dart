@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -40,7 +42,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            _productBloc.add(LoadProductList());
+            final completer = Completer();
+            _productBloc.add(LoadProductList(completer: completer));
+            return completer.future;
           },
           child: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {

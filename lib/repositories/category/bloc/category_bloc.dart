@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/repositories/category/category.dart';
 
@@ -14,6 +16,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         emit(CategoryListLoaded(categoryList: categoryList));
       } catch (e) {
         emit(CategoryListLoadingFailure(exception: e));
+      } finally {
+        event.completer?.complete();
       }
     });
   }

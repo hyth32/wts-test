@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/repositories/category/category.dart';
 import 'package:wts_test/repositories/product/product.dart';
@@ -16,6 +18,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(ProductStateLoaded(productList: productList));
       } catch (e) {
         emit(ProductStateLoadingFailure(exception: e));
+      } finally {
+        event.completer?.complete();
       }
     });
   }

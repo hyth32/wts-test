@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -30,7 +32,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            _categoryBloc.add(LoadCategoryList());
+            final completer = Completer();
+            _categoryBloc.add(LoadCategoryList(completer: completer));
+            return completer.future;
           },
           child: BlocBuilder<CategoryBloc, CategoryState>(
             builder: (context, state) {
