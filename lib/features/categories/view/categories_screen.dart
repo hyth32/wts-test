@@ -28,35 +28,40 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         appBar: AppBar(
           title: const Text('Категории'),
         ),
-        body: BlocBuilder<CategoryBloc, CategoryState>(
-          builder: (context, state) {
-            if (state is CategoryListLoaded) {
-              return GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                  ),
-                  itemCount: state.categoryList.length,
-                  itemBuilder: (context, index) {
-                    Category category = state.categoryList[index];
-                    return CategoryTile(
-                        category: category,
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed('/list', arguments: category);
-                        });
-                  });
-            }
-            if (state is CategoryListLoadingFailure) {
-              return LoadingErrorWidget(onPressed: () {
-                _categoryBloc.add(LoadCategoryList());
-              });
-            }
-            return const Center(child: CircularProgressIndicator());
+        body: RefreshIndicator(
+          onRefresh: () async {
+            _categoryBloc.add(LoadCategoryList());
           },
-          bloc: _categoryBloc,
+          child: BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              if (state is CategoryListLoaded) {
+                return GridView.builder(
+                    padding: const EdgeInsets.all(12),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                    ),
+                    itemCount: state.categoryList.length,
+                    itemBuilder: (context, index) {
+                      Category category = state.categoryList[index];
+                      return CategoryTile(
+                          category: category,
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed('/list', arguments: category);
+                          });
+                    });
+              }
+              if (state is CategoryListLoadingFailure) {
+                return LoadingErrorWidget(onPressed: () {
+                  _categoryBloc.add(LoadCategoryList());
+                });
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+            bloc: _categoryBloc,
+          ),
         ));
   }
 }

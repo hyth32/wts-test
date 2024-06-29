@@ -38,33 +38,38 @@ class _ProductsScreenState extends State<ProductsScreen> {
         appBar: AppBar(
           title: Text('${category?.title}'),
         ),
-        body: BlocBuilder<ProductBloc, ProductState>(
-          builder: (context, state) {
-            if (state is ProductStateLoaded) {
-              return ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16),
-                  padding: const EdgeInsets.all(12),
-                  itemCount: state.productList.length,
-                  itemBuilder: (context, index) {
-                    final item = state.productList[index];
-                    return ProductTile(
-                      item: item,
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/product', arguments: item);
-                      },
-                    );
-                  });
-            }
-            if (state is ProductStateLoadingFailure) {
-              return LoadingErrorWidget(onPressed: () {
-                _productBloc.add(LoadProductList());
-              });
-            }
-            return const Center(child: CircularProgressIndicator());
+        body: RefreshIndicator(
+          onRefresh: () async {
+            _productBloc.add(LoadProductList());
           },
-          bloc: _productBloc,
+          child: BlocBuilder<ProductBloc, ProductState>(
+            builder: (context, state) {
+              if (state is ProductStateLoaded) {
+                return ListView.separated(
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
+                    padding: const EdgeInsets.all(12),
+                    itemCount: state.productList.length,
+                    itemBuilder: (context, index) {
+                      final item = state.productList[index];
+                      return ProductTile(
+                        item: item,
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed('/product', arguments: item);
+                        },
+                      );
+                    });
+              }
+              if (state is ProductStateLoadingFailure) {
+                return LoadingErrorWidget(onPressed: () {
+                  _productBloc.add(LoadProductList());
+                });
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+            bloc: _productBloc,
+          ),
         ));
   }
 }
