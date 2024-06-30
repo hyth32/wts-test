@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wts_test/api/api.dart';
-import 'package:wts_test/features/models/models.dart';
+import 'package:wts_test/models/models.dart';
 import 'product_list.dart';
 
 class ProductListRepository implements AbstractProductListRepository {

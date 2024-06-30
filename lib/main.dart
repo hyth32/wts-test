@@ -4,5 +4,5 @@ import 'shop_app.dart';
 
 void main() {
   setupLocator();
-  runApp(const App());
+  runApp(const ShopApp());
 }

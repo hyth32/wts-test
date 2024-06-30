@@ -10,12 +10,15 @@ class NoImageWidget extends StatelessWidget {
         color: Colors.black12,
         borderRadius: BorderRadius.circular(16),
       ),
-      constraints: const BoxConstraints(
-        minHeight: 100, minWidth: 100),
-      child: const Center(child: Text('No image', style: TextStyle(
+      constraints: const BoxConstraints(minHeight: 150, minWidth: 100),
+      child: const Center(
+          child: Text(
+        'No image',
+        style: TextStyle(
           fontSize: 20,
-          fontWeight: FontWeight.w300
-      ),)),
+          fontWeight: FontWeight.w300,
+        ),
+      )),
     );
   }
 }

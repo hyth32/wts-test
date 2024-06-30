@@ -39,7 +39,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(category.title),
+          title: Text(category.title, style: Theme.of(context).textTheme.bodyLarge,),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1),
+              child: Container(
+                color: Colors.grey[850],
+                height: 1,
+              ),
+            )
         ),
         body: RefreshIndicator(
           onRefresh: () async {
@@ -53,7 +60,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 return ListView.separated(
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(16),
                     itemCount: state.productList.length,
                     itemBuilder: (context, index) {
                       final product = state.productList[index];

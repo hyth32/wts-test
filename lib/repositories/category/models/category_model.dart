@@ -8,7 +8,7 @@ class Category extends Equatable {
   final String fullName;
   final String categoryDescription;
 
-  Category({
+  const Category({
     required this.categoryId,
     required this.title,
     this.imageUrl,
@@ -35,6 +35,6 @@ class Category extends Equatable {
         imageUrl,
         hasSubcategories,
         fullName,
-        categoryDescription
+        categoryDescription,
       ];
 }

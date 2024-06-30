@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:wts_test/features/models/models.dart';
+import 'package:wts_test/models/models.dart';
 
 class ProductDetailsTile extends StatelessWidget {
   const ProductDetailsTile({super.key, required this.product});

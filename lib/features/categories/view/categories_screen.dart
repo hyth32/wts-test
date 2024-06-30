@@ -28,7 +28,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Категории'),
+          title: Text('Категории', style: Theme.of(context).textTheme.bodyLarge,),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1),
+            child: Container(
+              color: Colors.grey[850],
+              height: 1,
+            ),
+          ),
         ),
         body: RefreshIndicator(
           onRefresh: () async {
@@ -40,11 +47,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             builder: (context, state) {
               if (state is CategoryListLoaded) {
                 return GridView.builder(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(16),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 2.25,
                     ),
                     itemCount: state.categoryList.length,
                     itemBuilder: (context, index) {

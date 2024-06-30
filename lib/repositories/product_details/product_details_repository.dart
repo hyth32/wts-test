@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:wts_test/api/api.dart';
 
-import '../../features/models/models.dart';
+import '../../models/models.dart';
 import 'product_details.dart';
 
 class ProductDetailsRepository implements AbstractProductDetailsRepository {

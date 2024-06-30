@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wts_test/features/models/models.dart';
+import 'package:wts_test/models/models.dart';
 import 'package:wts_test/repositories/category/category.dart';
 import 'package:wts_test/repositories/product_list/product_list.dart';
 
