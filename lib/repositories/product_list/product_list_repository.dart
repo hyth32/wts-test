@@ -10,7 +10,7 @@ class ProductListRepository implements AbstractProductListRepository {
 
   @override
   Future<List<Product>> getProductList({int? categoryId}) async {
-    final response = await BaseApi(dio: dio).get('common/product/list', argument: 'categoryId=$categoryId') as List<dynamic>;
+    final response = await BaseApi(dio: dio).get('common/product/list', param: 'categoryId=$categoryId') as List<dynamic>;
     List<Product> productList = response.map((item) => Product.fromJSON(item)).toList();
     return productList;
   }
