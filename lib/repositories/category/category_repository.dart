@@ -12,6 +12,7 @@ class CategoryRepository implements AbstractCategoryRepository {
     final response = await BaseApi(dio: dio).get('common/category/list') as Map<String, dynamic>;
     final rawCategories = response['categories'] as List<dynamic>;
     List<Category> categories = rawCategories.map((category) => Category.fromJSON(category)).toList();
+    categories.insert(0, allProductsCategory);
     return categories;
   }
 }
