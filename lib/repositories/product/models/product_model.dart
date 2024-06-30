@@ -1,4 +1,6 @@
-class Product {
+import 'package:equatable/equatable.dart';
+
+class Product extends Equatable {
   const Product({
     required this.productId,
     required this.title,
@@ -28,4 +30,15 @@ class Product {
       isAvailableForSale: json['isAvailableForSale'] == 1,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        productId,
+        title,
+        productDescription,
+        price,
+        rating,
+        imageUrl,
+        isAvailableForSale
+      ];
 }

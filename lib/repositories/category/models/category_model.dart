@@ -1,4 +1,6 @@
-class Category {
+import 'package:equatable/equatable.dart';
+
+class Category extends Equatable {
   final int categoryId;
   final String title;
   final String? imageUrl;
@@ -25,4 +27,14 @@ class Category {
       categoryDescription: json['categoryDescription'] ?? '',
     );
   }
+
+  @override
+  List<Object?> get props => [
+        categoryId,
+        title,
+        imageUrl,
+        hasSubcategories,
+        fullName,
+        categoryDescription
+      ];
 }

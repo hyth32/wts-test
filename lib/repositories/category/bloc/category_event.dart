@@ -1,9 +1,12 @@
 part of 'category_bloc.dart';
 
-class CategoryEvent {}
+abstract class CategoryEvent extends Equatable {}
 
 class LoadCategoryList extends CategoryEvent {
   LoadCategoryList({this.completer});
 
   final Completer? completer;
+
+  @override
+  List<Object?> get props => [completer];
 }
