@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:wts_test/features/categories/widgets/widgets.dart';
 import 'package:wts_test/repositories/category/bloc/category_bloc.dart';
 import 'package:wts_test/repositories/category/category.dart';
-import 'package:wts_test/widgets/loading_error.dart';
+import 'package:wts_test/widgets/widgets.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});

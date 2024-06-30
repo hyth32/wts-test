@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:wts_test/features/products_list/widgets/widgets.dart';
 import 'package:wts_test/repositories/category/category.dart';
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
-import 'package:wts_test/widgets/loading_error.dart';
+import 'package:wts_test/widgets/widgets.dart';
 
 import '../../../repositories/product_list/product_list.dart';
 

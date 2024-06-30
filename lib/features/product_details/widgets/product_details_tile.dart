@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wts_test/models/models.dart';
-import 'package:wts_test/widgets/no_image.dart';
-import 'package:wts_test/widgets/text_with_pagination.dart';
+import 'package:wts_test/widgets/widgets.dart';
 
 class ProductDetailsTile extends StatelessWidget {
   const ProductDetailsTile({super.key, required this.product});
