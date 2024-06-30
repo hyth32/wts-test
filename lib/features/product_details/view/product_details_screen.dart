@@ -1,5 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:wts_test/features/models/models.dart';
+import 'package:wts_test/features/product_details/widgets/product_details_tile.dart';
+import 'package:wts_test/repositories/product_details/bloc/product_details_bloc.dart';
+import 'package:wts_test/repositories/product_details/product_details.dart';
 import 'package:wts_test/widgets/widgets.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -10,13 +17,19 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  Product? item;
+  late Product product;
+  late ProductDetailsBloc _productDetailsBloc;
 
   @override
   void didChangeDependencies() {
     final args = ModalRoute.of(context)?.settings.arguments;
     assert(args != null && args is Product, 'Invalid arguments');
-    item = args as Product;
+    product = args as Product;
+
+    _productDetailsBloc = ProductDetailsBloc(
+        GetIt.instance<AbstractProductDetailsRepository>(), product.productId);
+    _productDetailsBloc.add(LoadProductDetails());
+
     setState(() {});
     super.didChangeDependencies();
   }
@@ -24,35 +37,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(item != null ? '${item?.title}' : '...'),
-        ),
-        body: item == null
-            ? const Text('No data')
-            : ListView.builder(
-                padding: const EdgeInsets.all(12),
-                itemCount: _buildItemWidgets().length,
-                itemBuilder: (context, index) {
-                  return _buildItemWidgets()[index];
-                },
-              ));
-  }
-
-  List<Widget> _buildItemWidgets() {
-    return [
-      item!.imageUrl != null && item!.imageUrl!.isNotEmpty
-          ? Image.network(item!.imageUrl!)
-          : const NoImageWidget(),
-      Text(
-        '${item?.title}',
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      appBar: AppBar(
+        title: Text(product.title),
       ),
-      Text('Price: ${item?.price}'),
-      Text('Rating: ${item?.rating ?? 'No rating'}'),
-      Text(
-          'Description:\n${item?.productDescription.isEmpty == true ? 'Empty' : item?.productDescription}'),
-      Text(
-          '${item!.isAvailableForSale ? 'Available' : 'Not available'} for sale'),
-    ];
+      body: RefreshIndicator(
+        onRefresh: () async {
+          final completer = Completer();
+          _productDetailsBloc.add(LoadProductDetails(completer: completer));
+          return completer.future;
+        },
+        child: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+          builder: (context, state) {
+            if (state is ProductDetailsLoaded) {
+              return ProductDetailsTile(product: state.productDetails);
+            }
+            if (state is ProductDetailsLoadingFailure) {
+              return LoadingErrorWidget(onPressed: () {
+                _productDetailsBloc.add(LoadProductDetails());
+              });
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+          bloc: _productDetailsBloc,
+        ),
+      ),
+    );
   }
 }

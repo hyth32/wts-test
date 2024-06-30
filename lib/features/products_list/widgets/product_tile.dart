@@ -4,9 +4,9 @@ import 'package:wts_test/widgets/widgets.dart';
 import '../../models/models.dart';
 
 class ProductTile extends StatelessWidget {
-  const ProductTile({super.key, required this.item, required this.onTap});
+  const ProductTile({super.key, required this.product, required this.onTap});
 
-  final Product item;
+  final Product product;
   final VoidCallback onTap;
 
   @override
@@ -16,11 +16,11 @@ class ProductTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          item.imageUrl != null && item.imageUrl!.isNotEmpty
-              ? Image.network(item.imageUrl!)
+          product.imageUrl != null && product.imageUrl!.isNotEmpty
+              ? Image.network(product.imageUrl!)
               : const NoImageWidget(),
-          Text(item.title),
-          Text('${item.price}'),
+          Text(product.title),
+          Text('${product.price}'),
         ],
       ),
     );

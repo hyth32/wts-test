@@ -18,8 +18,8 @@ class ProductListScreen extends StatefulWidget {
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
-  Category? category;
-  late ProductListBloc _productBloc;
+  late Category category;
+  late ProductListBloc _productListBloc;
 
   @override
   void didChangeDependencies() {
@@ -27,9 +27,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
     assert(args != null && args is Category, 'Invalid arguments');
     category = args as Category;
 
-    _productBloc =
+    _productListBloc =
         ProductListBloc(GetIt.instance<AbstractProductListRepository>(), category);
-    _productBloc.add(LoadProductList());
+    _productListBloc.add(LoadProductList());
 
     setState(() {});
     super.didChangeDependencies();
@@ -39,12 +39,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${category?.title}'),
+          title: Text(category.title),
         ),
         body: RefreshIndicator(
           onRefresh: () async {
             final completer = Completer();
-            _productBloc.add(LoadProductList(completer: completer));
+            _productListBloc.add(LoadProductList(completer: completer));
             return completer.future;
           },
           child: BlocBuilder<ProductListBloc, ProductListState>(
@@ -56,24 +56,24 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     padding: const EdgeInsets.all(12),
                     itemCount: state.productList.length,
                     itemBuilder: (context, index) {
-                      final item = state.productList[index];
+                      final product = state.productList[index];
                       return ProductTile(
-                        item: item,
+                        product: product,
                         onTap: () {
                           Navigator.of(context)
-                              .pushNamed('/product', arguments: item);
+                              .pushNamed('/product', arguments: product);
                         },
                       );
                     });
               }
               if (state is ProductListStateLoadingFailure) {
                 return LoadingErrorWidget(onPressed: () {
-                  _productBloc.add(LoadProductList());
+                  _productListBloc.add(LoadProductList());
                 });
               }
               return const Center(child: CircularProgressIndicator());
             },
-            bloc: _productBloc,
+            bloc: _productListBloc,
           ),
         ));
   }
