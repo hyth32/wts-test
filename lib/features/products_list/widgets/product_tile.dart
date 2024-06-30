@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wts_test/repositories/product/product.dart';
 import 'package:wts_test/widgets/widgets.dart';
 
+import '../../models/models.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile({super.key, required this.item, required this.onTap});
@@ -16,8 +16,9 @@ class ProductTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          item.imageUrl != null && item.imageUrl!.isNotEmpty ?
-          Image.network(item.imageUrl!) : const NoImageWidget(),
+          item.imageUrl != null && item.imageUrl!.isNotEmpty
+              ? Image.network(item.imageUrl!)
+              : const NoImageWidget(),
           Text(item.title),
           Text('${item.price}'),
         ],

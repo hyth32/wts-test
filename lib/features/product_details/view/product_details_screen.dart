@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:wts_test/features/models/models.dart';
 import 'package:wts_test/widgets/widgets.dart';
-import 'package:wts_test/repositories/product/product.dart';
 
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+class ProductDetailsScreen extends StatefulWidget {
+  const ProductDetailsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ProductScreenState();
+  State<StatefulWidget> createState() => _ProductDetailsScreenState();
 }
 
-class _ProductScreenState extends State<ProductScreen> {
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Product? item;
 
   @override

@@ -5,20 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wts_test/features/products_list/widgets/widgets.dart';
 import 'package:wts_test/repositories/category/category.dart';
-import 'package:wts_test/repositories/product/bloc/product_bloc.dart';
-import 'package:wts_test/repositories/product/product.dart';
+import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 import 'package:wts_test/widgets/loading_error.dart';
 
-class ProductsScreen extends StatefulWidget {
-  const ProductsScreen({super.key});
+import '../../../repositories/product_list/product_list.dart';
+
+class ProductListScreen extends StatefulWidget {
+  const ProductListScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ProductsScreenState();
+  State<StatefulWidget> createState() => _ProductListScreenState();
 }
 
-class _ProductsScreenState extends State<ProductsScreen> {
+class _ProductListScreenState extends State<ProductListScreen> {
   Category? category;
-  late ProductBloc _productBloc;
+  late ProductListBloc _productBloc;
 
   @override
   void didChangeDependencies() {
@@ -27,7 +28,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     category = args as Category;
 
     _productBloc =
-        ProductBloc(GetIt.instance<AbstractProductRepository>(), category);
+        ProductListBloc(GetIt.instance<AbstractProductListRepository>(), category);
     _productBloc.add(LoadProductList());
 
     setState(() {});
@@ -46,9 +47,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
             _productBloc.add(LoadProductList(completer: completer));
             return completer.future;
           },
-          child: BlocBuilder<ProductBloc, ProductState>(
+          child: BlocBuilder<ProductListBloc, ProductListState>(
             builder: (context, state) {
-              if (state is ProductStateLoaded) {
+              if (state is ProductListStateLoaded) {
                 return ListView.separated(
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
@@ -65,7 +66,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       );
                     });
               }
-              if (state is ProductStateLoadingFailure) {
+              if (state is ProductListStateLoadingFailure) {
                 return LoadingErrorWidget(onPressed: () {
                   _productBloc.add(LoadProductList());
                 });
