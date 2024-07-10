@@ -13,12 +13,13 @@ class ProductListStateLoading extends ProductListState {
 }
 
 class ProductListStateLoaded extends ProductListState {
-  ProductListStateLoaded({required this.productList});
+  ProductListStateLoaded(this.productList, this.hasMore);
 
   final List<Product> productList;
+  final bool hasMore;
 
   @override
-  List<Object?> get props => [productList];
+  List<Object?> get props => [productList, hasMore];
 }
 
 class ProductListStateLoadingFailure extends ProductListState {

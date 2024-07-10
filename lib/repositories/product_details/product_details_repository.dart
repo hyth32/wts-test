@@ -10,9 +10,9 @@ class ProductDetailsRepository implements AbstractProductDetailsRepository {
   final Dio dio;
 
   @override
-  Future<Product> getProductDetails(int productId) async {
+  Future<Product> getProductDetails(int productId, {int? offset}) async {
     final response = await BaseApi(dio: dio)
-        .get('common/product/details', param: 'productId=$productId');
+        .get('common/product/details', param: 'productId=$productId', offset: offset);
     final productDetails = Product.fromJSON(response);
     return productDetails;
   }

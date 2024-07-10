@@ -10,3 +10,8 @@ class LoadProductList extends ProductListEvent {
   @override
   List<Object?> get props => [completer];
 }
+
+class LoadMoreProducts extends ProductListEvent {
+  @override
+  List<Object?> get props => [];
+}
