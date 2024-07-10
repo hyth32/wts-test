@@ -8,6 +8,7 @@ class Product extends Equatable {
     required this.price,
     required this.rating,
     this.imageUrl,
+    this.images,
     required this.isAvailableForSale,
   });
 
@@ -17,6 +18,7 @@ class Product extends Equatable {
   final int price;
   final double? rating;
   final String? imageUrl;
+  final List<String>? images;
   final bool isAvailableForSale;
 
   factory Product.fromJSON(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class Product extends Equatable {
       price: json['price'],
       rating: json['rating']?.toDouble(),
       imageUrl: json['imageUrl'],
+      images: List<String>.from(json['images']),
       isAvailableForSale: json['isAvailableForSale'] == 1,
     );
   }
@@ -39,6 +42,7 @@ class Product extends Equatable {
         price,
         rating,
         imageUrl,
+        images,
         isAvailableForSale
       ];
 }
