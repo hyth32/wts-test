@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wts_test/features/categories/widgets/widgets.dart';
+import 'package:wts_test/features/categories/widgets/category_tile.dart';
+import 'package:wts_test/features/products_list/view/products_list_screen.dart';
+import 'package:wts_test/repositories/category/abstract_category_repository.dart';
 import 'package:wts_test/repositories/category/bloc/category_bloc.dart';
-import 'package:wts_test/repositories/category/category.dart';
-import 'package:wts_test/widgets/widgets.dart';
+import 'package:wts_test/repositories/category/models/category_model.dart';
+import 'package:wts_test/widgets/loading_error.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -60,8 +62,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       return CategoryTile(
                           category: category,
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/list', arguments: category);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ProductListScreen(
+                                  category: category,
+                                )),
+                            );
                           });
                     });
               }

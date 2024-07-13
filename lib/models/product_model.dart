@@ -37,12 +37,6 @@ class Product extends Equatable {
   @override
   List<Object?> get props => [
         productId,
-        title,
-        productDescription,
-        price,
         rating,
-        imageUrl,
-        images,
-        isAvailableForSale
-      ];
+  ];
 }

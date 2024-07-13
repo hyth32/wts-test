@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wts_test/repositories/category/category.dart';
+import 'package:wts_test/repositories/category/models/category_model.dart';
 
 class CategoryTile extends StatelessWidget {
   const CategoryTile({super.key, required this.category, required this.onTap});

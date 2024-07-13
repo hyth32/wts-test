@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wts_test/models/models.dart';
-import 'package:wts_test/repositories/category/category.dart';
-import 'package:wts_test/repositories/product_list/product_list.dart';
+import 'package:wts_test/models/product_model.dart';
+import 'package:wts_test/repositories/category/models/category_model.dart';
+import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 
 part 'product_list_state.dart';
 part 'product_list_event.dart';

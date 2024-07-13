@@ -1,19 +1,18 @@
-import 'package:dio/dio.dart';
-import 'package:wts_test/api/api.dart';
-import 'package:wts_test/models/models.dart';
-
-import 'product_details.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wts_test/api/base_api.dart';
+import 'package:wts_test/models/product_model.dart';
+import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 
 class ProductDetailsRepository implements AbstractProductDetailsRepository {
-  ProductDetailsRepository({required this.dio});
-
-  final Dio dio;
-
   @override
   Future<Product> getProductDetails(int productId, {int? offset}) async {
-    final response = await BaseApi(dio: dio)
-        .get('common/product/details', param: 'productId=$productId', offset: offset);
-    final productDetails = Product.fromJSON(response);
-    return productDetails;
+    var queryParameters = {
+      'productId': '$productId',
+      'offset': '$offset',
+    };
+        final response = await GetIt.instance<BaseApi>()
+          .get('common/product/details', queryParameters: queryParameters);
+        final productDetails = Product.fromJSON(response);
+        return productDetails;
   }
 }

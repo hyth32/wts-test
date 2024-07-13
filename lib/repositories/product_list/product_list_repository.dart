@@ -1,19 +1,28 @@
-import 'package:dio/dio.dart';
-import 'package:wts_test/api/api.dart';
-import 'package:wts_test/models/models.dart';
-import 'product_list.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wts_test/api/base_api.dart';
+import 'package:wts_test/models/product_model.dart';
+import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 
 class ProductListRepository implements AbstractProductListRepository {
-  ProductListRepository({required this.dio});
-
-  final Dio dio;
-
   @override
   Future<List<Product>> getProductList({int? categoryId, int? offset}) async {
-    final response = await BaseApi(dio: dio).get('common/product/list',
-        param: 'categoryId=$categoryId', offset: offset) as List<dynamic>;
-    List<Product> productList =
-        response.map((item) => Product.fromJSON(item)).toList();
-    return productList;
+    var queryParameters = {
+      'categoryId': '$categoryId',
+      'offset': '$offset',
+    };
+    try {
+      final response = await GetIt.instance<BaseApi>()
+          .get(
+        'common/product/list',
+        queryParameters: queryParameters,
+      ) as List<dynamic>;
+      List<Product> productList =
+      response.map((item) => Product.fromJSON(item)).toList();
+      return productList;
+    } catch (e) {
+      debugPrint('Exception: $e');
+      return <Product>[];
+    }
   }
 }

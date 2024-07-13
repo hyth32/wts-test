@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wts_test/repositories/category/category.dart';
+import 'package:wts_test/repositories/category/abstract_category_repository.dart';
+import 'package:wts_test/repositories/category/models/category_model.dart';
 
 part 'category_state.dart';
 

@@ -1,18 +1,22 @@
-import 'package:dio/dio.dart';
-import 'package:wts_test/api/api.dart';
-import 'category.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wts_test/api/base_api.dart';
+import 'package:wts_test/repositories/category/models/category_model.dart';
+
+import 'abstract_category_repository.dart';
 
 class CategoryRepository implements AbstractCategoryRepository {
-  CategoryRepository({required this.dio});
-
-  final Dio dio;
-
   @override
   Future<List<Category>> getCategoriesList() async {
-    final response = await BaseApi(dio: dio).get('common/category/list') as Map<String, dynamic>;
-    final rawCategories = response['categories'] as List<dynamic>;
-    List<Category> categories = rawCategories.map((category) => Category.fromJSON(category)).toList();
-    categories.insert(0, allProductsCategory);
-    return categories;
+    try {
+      final response = await GetIt.instance<BaseApi>().get('common/category/list') as Map<String, dynamic>;
+      final rawCategories = response['categories'] as List<dynamic>;
+      List<Category> categories = rawCategories.map((category) => Category.fromJSON(category)).toList();
+      categories.insert(0, allProductsCategory);
+      return categories;
+    } catch (e) {
+      debugPrint('Exception: $e');
+      return <Category>[];
+    }
   }
 }
