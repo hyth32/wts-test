@@ -17,17 +17,6 @@ class Category extends Equatable {
     required this.categoryDescription,
   });
 
-  factory Category.fromJSON(Map<String, dynamic> json) {
-    return Category(
-      categoryId: json['categoryId'],
-      title: json['title'],
-      imageUrl: json['imageUrl'],
-      hasSubcategories: json['hasSubcategories'],
-      fullName: json['fullName'],
-      categoryDescription: json['categoryDescription'] ?? '',
-    );
-  }
-
   @override
   List<Object?> get props => [
         categoryId,
@@ -39,11 +28,3 @@ class Category extends Equatable {
       ];
 }
 
-const Category allProductsCategory = Category(
-  categoryId: 0,
-  title: 'Все товары',
-  imageUrl: null,
-  hasSubcategories: 0,
-  fullName: 'Все товары',
-  categoryDescription: 'Все товары в каталоге',
-);

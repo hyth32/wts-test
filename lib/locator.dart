@@ -12,8 +12,7 @@ import 'repositories/product_list/product_list_repository.dart';
 final GetIt locator = GetIt.instance;
 
 void setupLocator() {
-  locator.registerLazySingleton<Dio>(() => Dio());
-  locator.registerLazySingleton<BaseApi>(() => BaseApi(dio: locator<Dio>()));
+  locator.registerLazySingleton<BaseApi>(() => BaseApi(dio: Dio()));
   locator.registerLazySingleton<AbstractCategoryRepository>(() => CategoryRepository());
   locator.registerLazySingleton<AbstractProductListRepository>(() => ProductListRepository());
   locator.registerLazySingleton<AbstractProductDetailsRepository>(() => ProductDetailsRepository());
