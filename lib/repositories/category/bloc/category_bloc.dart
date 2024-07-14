@@ -1,7 +1,5 @@
-import 'dart:async';
-
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 import 'package:wts_test/repositories/category/abstract_category_repository.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';

@@ -1,12 +1,7 @@
 part of 'product_details_bloc.dart';
 
-abstract class ProductDetailsEvent extends Equatable {}
+class ProductDetailsEvent extends BaseBlocEvent {}
 
-class LoadProductDetails extends ProductDetailsEvent {
-  LoadProductDetails({this.completer});
-
-  final Completer? completer;
-
-  @override
-  List<Object?> get props => [completer];
+class LoadProductDetails extends BaseBlockLoadEvent implements ProductDetailsEvent {
+  LoadProductDetails({super.completer});
 }
