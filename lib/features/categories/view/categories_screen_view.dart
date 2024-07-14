@@ -4,6 +4,7 @@
   import 'package:flutter_bloc/flutter_bloc.dart';
   import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_refresh_scaffold.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
   import 'package:wts_test/features/categories/widgets/category_tile.dart';
   import 'package:wts_test/features/products_list/view/products_list_screen.dart';
   import 'package:wts_test/repositories/category/abstract_category_repository.dart';
@@ -36,38 +37,33 @@ import 'package:wts_test/abstract/base_refresh_scaffold.dart';
             _categoryBloc.add(LoadCategoryList(completer: completer));
             return completer.future;
           },
-          body: BlocBuilder<CategoryBloc, CategoryState>(
-              builder: (context, state) {
-                if (state is CategoryListLoaded) {
-                  return GridView.builder(
-                      padding: const EdgeInsets.all(16),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: 16,
-                        childAspectRatio: 2.25,
-                      ),
-                      itemCount: state.categoryList.length,
-                      itemBuilder: (context, index) {
-                        Category category = state.categoryList[index];
-                        return CategoryTile(
-                            category: category,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ProductListScreen(
-                                    category: category,
-                                  )),
-                              );
-                            });
-                      });
-                }
-                if (state is CategoryListLoadingFailure) {
-                  return LoadingErrorWidget(onPressed: () {
-                    _categoryBloc.add(LoadCategoryList());
+          body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
+            buildContent: (context, state) {
+              return GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 2.25,
+                  ),
+                  itemCount: state.categoryList.length,
+                  itemBuilder: (context, index) {
+                    Category category = state.categoryList[index];
+                    return CategoryTile(
+                        category: category,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProductListScreen(
+                                category: category,
+                              )),
+                          );
+                        });
                   });
-                }
-                return const Center(child: CircularProgressIndicator());
+              },
+              onLoadingFailurePressed: () {
+                _categoryBloc.add(LoadCategoryList());
               },
               bloc: _categoryBloc,
             ),

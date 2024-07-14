@@ -4,6 +4,7 @@
   import 'package:flutter_bloc/flutter_bloc.dart';
   import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_refresh_scaffold.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
     import 'package:wts_test/features/product_details/view/product_details_screen_view.dart';
   import 'package:wts_test/features/products_list/widgets/product_tile.dart';
   import 'package:wts_test/repositories/category/models/category_model.dart';
@@ -59,42 +60,37 @@ import 'package:wts_test/abstract/base_refresh_scaffold.dart';
           _productListBloc.add(LoadProductList(completer: completer));
           return completer.future;
         },
-        body: BlocBuilder<ProductListBloc, ProductListState>(
-            builder: (context, state) {
-              if (state is ProductListStateLoaded) {
-                return ListView.separated(
-                  controller: _scrollController,
-                  separatorBuilder: (context, index) =>
-                  const SizedBox(height: 16),
-                  padding: const EdgeInsets.all(16),
-                  itemCount: state.productList.length,
-                  itemBuilder: (context, index) {
-                    if (index >= state.productList.length) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    final product = state.productList[index];
-                    return ProductTile(
-                      product: product,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>
-                              ProductDetailsScreen(product: product,)),
-                        );
-                      },
+        body: BaseBlocBuilder<ProductListBloc, ProductListState, ProductListStateLoaded>(
+          buildContent: (context, state) {
+            return ListView.separated(
+              controller: _scrollController,
+              separatorBuilder: (context, index) =>
+              const SizedBox(height: 16),
+              padding: const EdgeInsets.all(16),
+              itemCount: state.productList.length,
+              itemBuilder: (context, index) {
+                if (index >= state.productList.length) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final product = state.productList[index];
+                return ProductTile(
+                  product: product,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                          ProductDetailsScreen(product: product,)),
                     );
                   },
                 );
-              }
-              if (state is ProductListStateLoadingFailure) {
-                return LoadingErrorWidget(onPressed: () {
-                  _productListBloc.add(LoadProductList());
-                });
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-            bloc: _productListBloc,
-          ),
+              },
+            );
+          },
+          bloc: _productListBloc,
+          onLoadingFailurePressed: () {
+            _productListBloc.add(LoadProductList());
+          },
+        ),
       );
     }
   }
