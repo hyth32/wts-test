@@ -15,3 +15,5 @@ abstract class BaseBlockLoadEvent extends BaseBlocEvent {
   @override
   List<Object?> get props => [completer];
 }
+
+abstract class BaseBlockLoadMoreEvent extends BaseBlocEvent {}
