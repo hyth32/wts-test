@@ -3,6 +3,7 @@
   import 'package:flutter/material.dart';
   import 'package:flutter_bloc/flutter_bloc.dart';
   import 'package:get_it/get_it.dart';
+import 'package:wts_test/abstract/base_refresh_scaffold.dart';
     import 'package:wts_test/features/product_details/view/product_details_screen_view.dart';
   import 'package:wts_test/features/products_list/widgets/product_tile.dart';
   import 'package:wts_test/repositories/category/models/category_model.dart';
@@ -51,27 +52,14 @@
   
     @override
     Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.category.title,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1),
-            child: Container(
-              color: Colors.grey[850],
-              height: 1,
-            ),
-          ),
-        ),
-        body: RefreshIndicator(
-          onRefresh: () async {
-            final completer = Completer();
-            _productListBloc.add(LoadProductList(completer: completer));
-            return completer.future;
-          },
-          child: BlocBuilder<ProductListBloc, ProductListState>(
+      return BaseRefreshScaffold(
+        appBarTitle: widget.category.title,
+        onRefresh: () async {
+          final completer = Completer();
+          _productListBloc.add(LoadProductList(completer: completer));
+          return completer.future;
+        },
+        body: BlocBuilder<ProductListBloc, ProductListState>(
             builder: (context, state) {
               if (state is ProductListStateLoaded) {
                 return ListView.separated(
@@ -107,7 +95,6 @@
             },
             bloc: _productListBloc,
           ),
-        ),
       );
     }
   }
