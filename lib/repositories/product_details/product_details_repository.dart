@@ -12,7 +12,7 @@ class ProductDetailsRepository implements AbstractProductDetailsRepository {
       'productId': '$productId',
       'offset': '$offset',
     };
-        final response = await GetIt.instance<BaseApi>()
+        final response = await GetIt.I<BaseApi>()
           .get('common/product/details', queryParameters: queryParameters);
         final productDetails = ModelFactory.createModel(response, ProductParser());
         return productDetails;

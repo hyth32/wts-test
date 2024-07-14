@@ -11,7 +11,7 @@ class CategoryRepository implements AbstractCategoryRepository {
   @override
   Future<List<Category>> getCategoriesList() async {
     try {
-      final response = await GetIt.instance<BaseApi>().get('common/category/list') as Map<String, dynamic>;
+      final response = await GetIt.I<BaseApi>().get('common/category/list') as Map<String, dynamic>;
       final rawCategories = response['categories'] as List<dynamic>;
       List<Category> categories = rawCategories.map((category) =>
           ModelFactory.createModel(

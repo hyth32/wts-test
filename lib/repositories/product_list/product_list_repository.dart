@@ -14,7 +14,7 @@ class ProductListRepository implements AbstractProductListRepository {
       'offset': '$offset',
     };
     try {
-      final response = await GetIt.instance<BaseApi>()
+      final response = await GetIt.I<BaseApi>()
           .get(
         'common/product/list',
         queryParameters: queryParameters,

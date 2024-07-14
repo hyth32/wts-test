@@ -27,4 +27,3 @@ class Category extends Equatable {
         categoryDescription,
       ];
 }
-

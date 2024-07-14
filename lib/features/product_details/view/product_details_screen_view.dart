@@ -24,7 +24,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     _productDetailsBloc = ProductDetailsBloc(
-        GetIt.instance<AbstractProductDetailsRepository>(), widget.product.productId);
+        GetIt.I<AbstractProductDetailsRepository>(), widget.product.productId);
     _productDetailsBloc.add(LoadProductDetails());
   }
 

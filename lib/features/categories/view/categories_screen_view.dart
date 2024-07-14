@@ -18,7 +18,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  final _categoryBloc = CategoryBloc(GetIt.instance<AbstractCategoryRepository>());
+  final _categoryBloc = CategoryBloc(GetIt.I<AbstractCategoryRepository>());
 
   @override
   void initState() {

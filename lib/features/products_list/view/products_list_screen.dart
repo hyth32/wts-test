@@ -26,7 +26,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     super.initState();
     _productListBloc = ProductListBloc(
-        GetIt.instance<AbstractProductListRepository>(),
+        GetIt.I<AbstractProductListRepository>(),
         widget.category,
     );
     _productListBloc.add(LoadProductList());

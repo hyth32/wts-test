@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wts_test/models/product_model.dart';
 import 'package:wts_test/widgets/no_image.dart';
-import 'package:wts_test/widgets/text_with_pagination.dart';
+import 'package:wts_test/widgets/text_decoration.dart';
 
 class ProductDetailsTile extends StatelessWidget {
   const ProductDetailsTile({super.key, required this.product});
@@ -30,14 +30,16 @@ class ProductDetailsTile extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            TextWithPagination(
-              child: Text(
-                  'Рейтинг${product.rating != null ? ': ${product.rating}' : ' недоступен'}'),
+            TextDecoration(
+              text: 'Рейтинг${product.rating != null
+                  ? ': ${product.rating}'
+                  : ' недоступен'}',
+              verticalInset: 6,
             ),
             const SizedBox(height: 8),
-            TextWithPagination(
-              child: Text(
-                  '${product.isAvailableForSale ? 'Есть' : 'Нет'} в продаже'),
+            TextDecoration(
+              text: '${product.isAvailableForSale ? 'Есть' : 'Нет'} в продаже',
+              verticalInset: 6,
             ),
           ]),
         ));

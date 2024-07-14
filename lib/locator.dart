@@ -9,7 +9,7 @@ import 'repositories/product_details/product_details_repository.dart';
 import 'repositories/product_list/abstract_product_list_repository.dart';
 import 'repositories/product_list/product_list_repository.dart';
 
-final GetIt locator = GetIt.instance;
+final GetIt locator = GetIt.I;
 
 void setupLocator() {
   locator.registerLazySingleton<BaseApi>(() => BaseApi(dio: Dio()));
