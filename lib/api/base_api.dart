@@ -1,23 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wts_test/config.dart';
 
 class BaseApi {
   BaseApi({required this.dio});
 
   final Dio dio;
 
-  String baseURL = 'onlinestore.whitetigersoft.ru';
-
-  //flutter run --dart-define=APP_KEY=''
-  // String appKey = const String.fromEnvironment('APP_KEY');
-  String appKey = 'EyZ6DhtHN24DjRJofNZ7BijpNsAZ-TT1is4WbJb9DB7m83rNQCZ7US0LyUg5FCP4eoyUZXmM1z45hY5fIC-JTCgmqHgnfcevkQQpmxi8biwwlSn0zZedvlNh0QkP1-Um';
-
   Uri buildUri({
     required String relativePath,
     Map<String, dynamic>? queryParameters,
   }) {
     return Uri.http(
-      baseURL,
+      Config.baseUrl,
         'api/$relativePath',
         queryParameters
     );
@@ -27,13 +22,13 @@ class BaseApi {
       String path, {
       Map<String, dynamic>? queryParameters,
   }) async {
-    var uri = buildUri(relativePath: path);
+    var uri = buildUri(relativePath: path, queryParameters: queryParameters);
     queryParameters ??= {};
-    queryParameters['appKey'] = appKey;
+    queryParameters['appKey'] = Config.appKey;
     try {
       final response = await dio.get(
           uri.toString(),
-          queryParameters: queryParameters
+          queryParameters: queryParameters,
       );
       final data = response.data['data'];
       return data;
