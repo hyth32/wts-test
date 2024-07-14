@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wts_test/api/base_api.dart';
-import 'package:wts_test/models/product_model.dart';
-import 'package:wts_test/parsers/model_factory.dart';
-import 'package:wts_test/parsers/product_parser.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductListRepository implements AbstractProductListRepository {
   @override
@@ -19,11 +17,7 @@ class ProductListRepository implements AbstractProductListRepository {
         'common/product/list',
         queryParameters: queryParameters,
       ) as List<dynamic>;
-      List<Product> productList = response.map((item) =>
-        ModelFactory.createModel(
-          item,
-          ProductParser(),
-        )).toList();
+      List<Product> productList = response.map((item) => Product.fromJson(item)).toList();
       return productList;
     } catch (e) {
       debugPrint('Exception: $e');

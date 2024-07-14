@@ -5,9 +5,9 @@ import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_refresh_scaffold.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/features/product_details/widgets/product_details_tile.dart';
-import 'package:wts_test/models/product_model.dart';
 import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 import 'package:wts_test/repositories/product_details/bloc/product_details_bloc.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.product});

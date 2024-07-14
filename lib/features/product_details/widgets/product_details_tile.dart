@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wts_test/models/product_model.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 import 'package:wts_test/widgets/no_image.dart';
 import 'package:wts_test/widgets/text_decoration.dart';
 
@@ -38,7 +38,7 @@ class ProductDetailsTile extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             TextDecoration(
-              text: '${product.isAvailableForSale ? 'Есть' : 'Нет'} в продаже',
+              text: '${product.isAvailable ? 'Есть' : 'Нет'} в продаже',
               verticalInset: 6,
             ),
           ]),

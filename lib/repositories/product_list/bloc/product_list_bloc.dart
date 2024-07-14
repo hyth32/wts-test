@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
-import 'package:wts_test/models/product_model.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 part 'product_list_state.dart';
 part 'product_list_event.dart';

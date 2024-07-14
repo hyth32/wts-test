@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wts_test/models/product_model.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 import 'package:wts_test/widgets/no_image.dart';
 
 class ProductTile extends StatelessWidget {

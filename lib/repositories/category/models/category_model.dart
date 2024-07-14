@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'category_model.g.dart';
+
+@JsonSerializable()
 class Category extends Equatable {
   final int categoryId;
   final String title;
@@ -17,13 +21,11 @@ class Category extends Equatable {
     required this.categoryDescription,
   });
 
+  factory Category.fromJson(Map<String,dynamic> json) => _$CategoryFromJson(json);
+
   @override
   List<Object?> get props => [
         categoryId,
         title,
-        imageUrl,
-        hasSubcategories,
-        fullName,
-        categoryDescription,
-      ];
+  ];
 }
