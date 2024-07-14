@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 import 'package:wts_test/models/product_model.dart';
 import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 
@@ -15,7 +16,7 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
           emit(ProductDetailsLoading());
         }
         final productDetails = await productDetailsRepository.getProductDetails(productId);
-        emit(ProductDetailsLoaded(productDetails: productDetails));
+        emit(ProductDetailsLoaded(productDetails));
       } catch (e) {
         emit(ProductDetailsLoadingFailure(exception: e));
       } finally {

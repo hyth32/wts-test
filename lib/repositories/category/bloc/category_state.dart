@@ -1,31 +1,17 @@
 part of 'category_bloc.dart';
 
-abstract class CategoryState extends Equatable {}
+class CategoryState extends BaseBlocState {}
 
-class CategoryInitial extends CategoryState {
-  @override
-  List<Object?> get props => [];
+class CategoryInitial extends CategoryState {}
+
+class CategoryListLoading extends BaseBlocLoadingState implements CategoryState {}
+
+class CategoryListLoaded extends BaseBlocLoadedState<Category> implements CategoryState {
+  CategoryListLoaded(super.categoryList);
+
+  List<Category> get categoryList => itemList;
 }
 
-class CategoryListLoading extends CategoryState {
-  @override
-  List<Object?> get props => [];
-}
-
-class CategoryListLoaded extends CategoryState {
-  CategoryListLoaded({required this.categoryList});
-
-  final List<Category> categoryList;
-
-  @override
-  List<Object?> get props => [categoryList];
-}
-
-class CategoryListLoadingFailure extends CategoryState {
-  CategoryListLoadingFailure({this.exception});
-
-  final Object? exception;
-
-  @override
-  List<Object?> get props => [exception];
+class CategoryListLoadingFailure extends BaseBlocLoadingFailureState implements CategoryState {
+  CategoryListLoadingFailure({super.exception});
 }

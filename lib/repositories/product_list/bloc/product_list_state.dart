@@ -1,32 +1,18 @@
 part of 'product_list_bloc.dart';
 
-abstract class ProductListState extends Equatable {}
+class ProductListState extends BaseBlocState {}
 
-class ProductListInitial extends ProductListState {
-  @override
-  List<Object?> get props => [];
-}
+class ProductListInitial extends ProductListState {}
 
-class ProductListStateLoading extends ProductListState {
-  @override
-  List<Object?> get props => [];
-}
+class ProductListStateLoading extends BaseBlocLoadingState implements ProductListState {}
 
-class ProductListStateLoaded extends ProductListState {
-  ProductListStateLoaded(this.productList, this.hasMore);
+class ProductListStateLoaded extends BaseBlocLoadedState<Product> implements ProductListState {
+  ProductListStateLoaded(super.productList, this.hasMore);
 
-  final List<Product> productList;
   final bool hasMore;
-
-  @override
-  List<Object?> get props => [productList, hasMore];
+  List<Product> get productList => itemList;
 }
 
-class ProductListStateLoadingFailure extends ProductListState {
-  ProductListStateLoadingFailure({this.exception});
-
-  final Object? exception;
-
-  @override
-  List<Object?> get props => [exception];
+class ProductListStateLoadingFailure extends BaseBlocLoadingFailureState implements ProductListState {
+  ProductListStateLoadingFailure({super.exception});
 }
