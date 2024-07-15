@@ -5,6 +5,7 @@ import 'package:wts_test/widgets/text_decoration.dart';
 
 class ProductDetailsTile extends StatelessWidget {
   const ProductDetailsTile({super.key, required this.product});
+
   final Product product;
 
   @override
@@ -18,22 +19,29 @@ class ProductDetailsTile extends StatelessWidget {
                 ? Image.network('${product.images?[0]}')
                 : const NoImageWidget(),
             const SizedBox(height: 32),
-            Text('Количество фотографий: ${product.images?.length}'),
+            Text(
+              'Количество фотографий: ${product.images?.length}',
+            ),
             const SizedBox(height: 32),
-            Text(product.title, style: Theme.of(context).textTheme.bodyLarge),
-            Text('${product.price} ₽'),
+            Text(
+              product.title,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              '${product.price} ₽',
+            ),
             const SizedBox(
               height: 12,
             ),
             Text(
-                'Описание${product.productDescription.isNotEmpty ? ':\n${product.productDescription}' : 'отсутствует.'}'),
+              'Описание${product.productDescription.isNotEmpty ? ':\n${product.productDescription}' : 'отсутствует.'}',
+            ),
             const SizedBox(
               height: 12,
             ),
             TextDecoration(
-              text: 'Рейтинг${product.rating != null
-                  ? ': ${product.rating}'
-                  : ' недоступен'}',
+              text:
+                  'Рейтинг${product.rating != null ? ': ${product.rating}' : ' недоступен'}',
               verticalInset: 6,
             ),
             const SizedBox(height: 8),

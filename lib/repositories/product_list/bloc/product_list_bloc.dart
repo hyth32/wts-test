@@ -9,10 +9,13 @@ import 'package:wts_test/repositories/product_list/abstract_product_list_reposit
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 part 'product_list_state.dart';
+
 part 'product_list_event.dart';
 
-class ProductListBloc extends BaseBloc<ProductListEvent, ProductListState, Product> {
-  ProductListBloc(this.productListRepository, this.category) : super(ProductListInitial()) {
+class ProductListBloc
+    extends BaseBloc<ProductListEvent, ProductListState, Product> {
+  ProductListBloc(this.productListRepository, this.category)
+      : super(ProductListInitial()) {
     on<LoadProductList>(_onLoadProductList);
     on<LoadMoreProducts>(_onLoadMoreProducts);
   }
@@ -22,21 +25,22 @@ class ProductListBloc extends BaseBloc<ProductListEvent, ProductListState, Produ
   int offset = 0;
   bool isLoading = false;
 
-  Future<void> _onLoadProductList(LoadProductList event, Emitter<ProductListState> emit) async {
+  Future<void> _onLoadProductList(
+      LoadProductList event, Emitter<ProductListState> emit) async {
     await loadItems(
-        emit: emit,
-        loadItemsFunction: () async {
-          final productList =
-            await productListRepository.getProductList(
-                categoryId: category?.categoryId,
-                offset: 0,
-            );
-          offset = productList.length;
-          return productList;
-        },
-        loadedState: (items, hasMoreItems) =>
-            ProductListStateLoaded(items, hasMoreItems),
-        loadingFailureState: (exception) => ProductListStateLoadingFailure(exception: exception),
+      emit: emit,
+      loadItemsFunction: () async {
+        final productList = await productListRepository.getProductList(
+          categoryId: category?.categoryId,
+          offset: 0,
+        );
+        offset = productList.length;
+        return productList;
+      },
+      loadedState: (items, hasMoreItems) =>
+          ProductListStateLoaded(items, hasMoreItems),
+      loadingFailureState: (exception) =>
+          ProductListStateLoadingFailure(exception: exception),
     );
     event.completer?.complete();
   }
@@ -50,10 +54,12 @@ class ProductListBloc extends BaseBloc<ProductListEvent, ProductListState, Produ
       if (currentState is ProductListStateLoaded) {
         debugPrint('Loading more products...');
         final productList = await productListRepository.getProductList(
-            categoryId: category?.categoryId, offset: offset);
+          categoryId: category?.categoryId,
+          offset: offset,
+        );
         offset += productList.length;
-        final updatedProductList =
-        List<Product>.from(currentState.productList)..addAll(productList);
+        final updatedProductList = List<Product>.from(currentState.productList)
+          ..addAll(productList);
         emit(ProductListStateLoaded(updatedProductList, productList.isNotEmpty));
         debugPrint('Loaded ${productList.length} additional products.');
       }

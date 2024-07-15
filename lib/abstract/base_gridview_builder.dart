@@ -15,15 +15,15 @@ class BaseGridviewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        padding: EdgeInsets.all( edgeInsets ?? 16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: 2.25,
-        ),
-        itemCount: itemCount,
-        itemBuilder: buildContent,
+      padding: EdgeInsets.all(edgeInsets ?? 16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 2.25,
+      ),
+      itemCount: itemCount,
+      itemBuilder: buildContent,
     );
   }
 }

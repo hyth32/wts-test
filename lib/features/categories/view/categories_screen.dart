@@ -31,27 +31,27 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseRefreshScaffold(
-        appBarTitle: 'Категории',
-        onRefresh: () async {
-          final completer = Completer();
-          _categoryBloc.add(LoadCategoryList(completer: completer));
-          return completer.future;
+      appBarTitle: 'Категории',
+      onRefresh: () async {
+        final completer = Completer();
+        _categoryBloc.add(LoadCategoryList(completer: completer));
+        return completer.future;
+      },
+      body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
+        buildContent: (context, state) {
+          return BaseGridviewBuilder(
+              itemCount: state.categoryList.length,
+              buildContent: (context, index) {
+                Category category = state.categoryList[index];
+                return BaseNavigationTileWidget(
+                  pageToNavigate: ProductListScreen(category: category),
+                  child: CategoryTile(category: category),
+                );
+              });
         },
-        body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
-          buildContent: (context, state) {
-            return BaseGridviewBuilder(
-                itemCount: state.categoryList.length,
-                buildContent: (context, index) {
-                  Category category = state.categoryList[index];
-                  return BaseNavigationTileWidget(
-                      pageToNavigate: ProductListScreen(category: category),
-                      child: CategoryTile(category: category),
-                  );
-                });
-            },
-            onLoadingFailurePressed: () => _categoryBloc.add(LoadCategoryList()),
-            bloc: _categoryBloc,
-          ),
-        );
+        onLoadingFailurePressed: () => _categoryBloc.add(LoadCategoryList()),
+        bloc: _categoryBloc,
+      ),
+    );
   }
 }

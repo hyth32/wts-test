@@ -19,10 +19,10 @@ class BaseSeparatedListview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-        itemBuilder: buildContent,
-        separatorBuilder: (BuildContext context, int index) => separator,
-        padding: EdgeInsets.all( edgeInsets ?? 16),
-        itemCount: itemCount,
+      itemBuilder: buildContent,
+      separatorBuilder: (BuildContext context, int index) => separator,
+      padding: EdgeInsets.all(edgeInsets ?? 16),
+      itemCount: itemCount,
     );
   }
 }

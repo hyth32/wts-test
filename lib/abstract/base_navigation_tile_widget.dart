@@ -16,7 +16,9 @@ class BaseNavigationTileWidget extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (BuildContext context) => pageToNavigate)
+          MaterialPageRoute(
+            builder: (BuildContext context) => pageToNavigate,
+          ),
         );
       },
       child: child,

@@ -14,6 +14,7 @@ import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key, required this.category});
+
   final Category category;
 
   @override
@@ -60,7 +61,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
         _productListBloc.add(LoadProductList(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<ProductListBloc, ProductListState, ProductListStateLoaded>(
+      body: BaseBlocBuilder<ProductListBloc, ProductListState,
+          ProductListStateLoaded>(
         buildContent: (context, state) {
           return BaseSeparatedListview(
             scrollController: _scrollController,

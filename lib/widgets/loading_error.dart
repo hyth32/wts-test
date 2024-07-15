@@ -10,12 +10,18 @@ class LoadingErrorWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text('Something went wrong'),
-          const Text('Please try again'),
+          const Text(
+            'Something went wrong',
+          ),
+          const Text(
+            'Please try again',
+          ),
           const SizedBox(height: 30),
           TextButton(
             onPressed: onPressed,
-            child: const Text('Try again'),
+            child: const Text(
+              'Try again',
+            ),
           )
         ],
       ),

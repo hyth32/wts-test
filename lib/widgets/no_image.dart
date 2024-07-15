@@ -10,7 +10,10 @@ class NoImageWidget extends StatelessWidget {
         color: Colors.black12,
         borderRadius: BorderRadius.circular(16),
       ),
-      constraints: const BoxConstraints(minHeight: 150, minWidth: 100),
+      constraints: const BoxConstraints(
+        minHeight: 150,
+        minWidth: 100,
+      ),
       child: const Center(
           child: Text(
         'No image',

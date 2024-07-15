@@ -27,10 +27,14 @@ class ProductTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(product.title,
-                      style: Theme.of(context).textTheme.bodyMedium),
-                  Text('${product.price} ₽',
-                      style: Theme.of(context).textTheme.labelSmall),
+                  Text(
+                    product.title,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    '${product.price} ₽',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                 ],
               ),
             )

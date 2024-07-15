@@ -9,8 +9,17 @@ final theme = ThemeData(
     ),
     textTheme: const TextTheme(
         bodyLarge: TextStyle(
-            color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+        ),
         bodyMedium: TextStyle(
-            color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
         labelSmall: TextStyle(
-            color: Colors.white, fontSize: 14, fontWeight: FontWeight.w300)));
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w300,
+        )));

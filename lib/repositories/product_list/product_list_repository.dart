@@ -16,7 +16,8 @@ class ProductListRepository implements AbstractProductListRepository {
         'common/product/list',
         queryParameters: queryParameters,
       ) as List<dynamic>;
-      List<Product> productList = response.map((item) => Product.fromJson(item)).toList();
+      List<Product> productList = response
+          .map((item) => Product.fromJson(item)).toList();
       return productList;
     } catch (e) {
       debugPrint('Exception: $e');

@@ -11,7 +11,7 @@ class ProductDetailsRepository implements AbstractProductDetailsRepository {
       'offset': '$offset',
     };
     final response = await GetIt.I<BaseApi>()
-      .get('common/product/details', queryParameters: queryParameters);
+        .get('common/product/details', queryParameters: queryParameters);
     final productDetails = Product.fromJson(response);
     return productDetails;
   }
