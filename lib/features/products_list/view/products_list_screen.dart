@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_refresh_scaffold.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
-import 'package:wts_test/features/product_details/view/product_details_screen_view.dart';
+import 'package:wts_test/abstract/base_navigation_tile_widget.dart';
+import 'package:wts_test/abstract/base_separated_listview.dart';
+import 'package:wts_test/features/product_details/view/product_details_screen.dart';
 import 'package:wts_test/features/products_list/widgets/product_tile.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
@@ -60,34 +62,24 @@ class _ProductListScreenState extends State<ProductListScreen> {
       },
       body: BaseBlocBuilder<ProductListBloc, ProductListState, ProductListStateLoaded>(
         buildContent: (context, state) {
-          return ListView.separated(
-            controller: _scrollController,
-            separatorBuilder: (context, index) =>
-            const SizedBox(height: 16),
-            padding: const EdgeInsets.all(16),
+          return BaseSeparatedListview(
+            scrollController: _scrollController,
+            separator: const SizedBox(height: 16),
             itemCount: state.productList.length,
-            itemBuilder: (context, index) {
+            buildContent: (context, index) {
               if (index >= state.productList.length) {
                 return const Center(child: CircularProgressIndicator());
               }
               final product = state.productList[index];
-              return ProductTile(
-                product: product,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>
-                        ProductDetailsScreen(product: product,)),
-                  );
-                },
+              return BaseNavigationTileWidget(
+                  pageToNavigate: ProductDetailsScreen(product: product),
+                  child: ProductTile(product: product),
               );
             },
           );
         },
         bloc: _productListBloc,
-        onLoadingFailurePressed: () {
-          _productListBloc.add(LoadProductList());
-        },
+        onLoadingFailurePressed: () => _productListBloc.add(LoadProductList()),
       ),
     );
   }

@@ -42,9 +42,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               return ProductDetailsTile(product: state.productDetails);
           },
           bloc: _productDetailsBloc,
-          onLoadingFailurePressed: () {
-            _productDetailsBloc.add(LoadProductDetails());
-          },
+          onLoadingFailurePressed: () => _productDetailsBloc.add(LoadProductDetails()),
         ),
     );
   }

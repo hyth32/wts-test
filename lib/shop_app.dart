@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wts_test/theme.dart';
 
-import 'features/categories/view/categories_screen_view.dart';
+import 'features/categories/view/categories_screen.dart';
 
 class ShopApp extends StatelessWidget {
   const ShopApp({super.key});

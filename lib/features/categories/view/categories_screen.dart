@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wts_test/abstract/base_gridview_builder.dart';
 import 'package:wts_test/abstract/base_refresh_scaffold.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
+import 'package:wts_test/abstract/base_navigation_tile_widget.dart';
 import 'package:wts_test/features/categories/widgets/category_tile.dart';
 import 'package:wts_test/features/products_list/view/products_list_screen.dart';
 import 'package:wts_test/repositories/category/abstract_category_repository.dart';
@@ -37,32 +39,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         },
         body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
           buildContent: (context, state) {
-            return GridView.builder(
-                padding: const EdgeInsets.all(16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 2.25,
-                ),
+            return BaseGridviewBuilder(
                 itemCount: state.categoryList.length,
-                itemBuilder: (context, index) {
+                buildContent: (context, index) {
                   Category category = state.categoryList[index];
-                  return CategoryTile(
-                      category: category,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProductListScreen(
-                              category: category,
-                            )),
-                        );
-                      });
+                  return BaseNavigationTileWidget(
+                      pageToNavigate: ProductListScreen(category: category),
+                      child: CategoryTile(category: category),
+                  );
                 });
             },
-            onLoadingFailurePressed: () {
-              _categoryBloc.add(LoadCategoryList());
-            },
+            onLoadingFailurePressed: () => _categoryBloc.add(LoadCategoryList()),
             bloc: _categoryBloc,
           ),
         );
