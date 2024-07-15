@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wts_test/abstract/base_network_image.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 import 'package:wts_test/widgets/no_image.dart';
 
@@ -17,8 +18,8 @@ class ProductTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            product.imageUrl != null && product.imageUrl!.isNotEmpty
-                ? Image.network(product.imageUrl!)
+            product.imageUrl!.isNotEmpty
+                ? BaseNetworkImage(imageUrl: product.imageUrl!)
                 : const NoImageWidget(),
             const SizedBox(height: 8),
             Padding(

@@ -28,18 +28,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void initState() {
     super.initState();
     _productListBloc = ProductListBloc(
-        GetIt.I<AbstractProductListRepository>(),
-        widget.category,
+      GetIt.I<AbstractProductListRepository>(),
+      widget.category,
     );
     _productListBloc.add(LoadProductList());
-
     _scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      _productListBloc.add(LoadMoreProducts());
+    if (_scrollController.position.atEdge) {
+      if (_scrollController.position.pixels != 0) {
+        _productListBloc.add(LoadMoreProducts());
+      }
     }
   }
 
@@ -72,8 +72,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
               }
               final product = state.productList[index];
               return BaseNavigationTileWidget(
-                  pageToNavigate: ProductDetailsScreen(product: product),
-                  child: ProductTile(product: product),
+                pageToNavigate: ProductDetailsScreen(product: product),
+                child: ProductTile(product: product),
               );
             },
           );
