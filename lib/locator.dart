@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import 'api/base_api.dart';
+import 'api/base_api/base_api.dart';
 import 'repositories/category/abstract_category_repository.dart';
 import 'repositories/category/category_repository.dart';
 import 'repositories/product_details/abstract_product_details_repository.dart';

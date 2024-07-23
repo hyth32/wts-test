@@ -32,7 +32,7 @@ class ProductListBloc
       loadItemsFunction: () async {
         final productList = await productListRepository.getProductList(
           categoryId: category?.categoryId,
-          offset: 0,
+          offset: offset,
         );
         offset = productList.length;
         return productList;

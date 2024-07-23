@@ -38,7 +38,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _onScroll() {
     if (_scrollController.position.atEdge) {
-      if (_scrollController.position.pixels != 0) {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         _productListBloc.add(LoadMoreProducts());
       }
     }

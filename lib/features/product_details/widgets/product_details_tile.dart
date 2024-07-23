@@ -39,13 +39,13 @@ class ProductDetailsTile extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            TextDecoration(
+            TextDecorationWidget(
               text:
                   'Рейтинг${product.rating != null ? ': ${product.rating}' : ' недоступен'}',
               verticalInset: 6,
             ),
             const SizedBox(height: 8),
-            TextDecoration(
+            TextDecorationWidget(
               text: '${product.isAvailable ? 'Есть' : 'Нет'} в продаже',
               verticalInset: 6,
             ),

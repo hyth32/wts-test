@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TextDecoration extends StatelessWidget {
-  const TextDecoration({
+class TextDecorationWidget extends StatelessWidget {
+  const TextDecorationWidget({
     super.key,
     required this.text,
     this.backgroundColor,

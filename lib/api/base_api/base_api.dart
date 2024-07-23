@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wts_test/api/base_api/base_api_request.dart';
 import 'package:wts_test/config.dart';
 
 class BaseApi {
@@ -33,8 +36,14 @@ class BaseApi {
         uri.toString(),
         queryParameters: queryParameters,
       );
-      final data = response.data['data'];
-      return data;
+      final responseData = response.data as Map<String, dynamic>;
+      final meta = ApiResponseMeta.fromJson (responseData['meta']);
+
+      if (meta.success) {
+        final data = responseData['data'];
+        return data;
+      }
+      return [];
     } catch (e) {
       debugPrint('Exception: $e');
       return [];
