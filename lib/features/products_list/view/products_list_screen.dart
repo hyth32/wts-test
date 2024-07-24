@@ -53,6 +53,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Тут имелось ввиду, что это будет не обертка
+    // А будет базовый класс с scaffold, appbar и прочее, в TODO.md отпишу
     return BaseRefreshScaffold(
       appBarTitle: widget.category.title,
       onRefresh: () async {
