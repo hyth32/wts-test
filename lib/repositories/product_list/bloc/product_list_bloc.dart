@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
@@ -10,72 +9,45 @@ import 'package:wts_test/repositories/product_list/abstract_product_list_reposit
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 part 'product_list_event.dart';
-part 'product_list_state.dart';
 
 class ProductListBloc
-    extends BaseBloc<ProductListEvent, ProductListState, Product> {
-  ProductListBloc(this.productListRepository, this.category)
-      : super(ProductListInitial()) {
+    extends BaseBloc<ProductListEvent, BlocState, List<Product>> {
+  List<Product> loadedData = [];
+
+  ProductListBloc(
+    this.productListRepository,
+    this.category,
+  ) : super(const InitialState()) {
     on<LoadProductList>(_onLoadProductList);
-    on<LoadMoreProducts>(_onLoadMoreProducts);
   }
 
   final Category? category;
   final AbstractProductListRepository productListRepository;
-  int offset = 0;
-  bool isLoading = false;
+
+  int get offset => loadedData.length;
+  bool isAllLoaded = false;
 
   Future<void> _onLoadProductList(
     LoadProductList event,
-    Emitter<ProductListState> emit,
+    Emitter<BlocState> emit,
   ) async {
-    await loadItems(
-      emit: emit,
-      loadItemsFunction: () async {
-        final productList = await productListRepository.getProductList(
-          categoryId: category?.categoryId,
-          offset: offset,
-        );
-        offset = productList.length;
-        return productList;
-      },
-      loadedState: (items, hasMoreItems) => ProductListStateLoaded(
-        items,
-        hasMoreItems,
-      ),
-      loadingFailureState: (exception) => ProductListStateLoadingFailure(
-        exception: exception,
-      ),
-    );
-    event.completer?.complete();
-  }
-
-  Future<void> _onLoadMoreProducts(
-    LoadMoreProducts event,
-    Emitter<ProductListState> emit,
-  ) async {
-    if (isLoading) return;
+    if (isLoading || isAllLoaded) return;
     isLoading = true;
-    try {
-      final currentState = state;
-      if (currentState is ProductListStateLoaded) {
-        debugPrint('Loading more products...');
-        final productList = await productListRepository.getProductList(
-          categoryId: category?.categoryId,
-          offset: offset,
-        );
-        offset += productList.length;
-        final updatedProductList = List<Product>.from(currentState.productList)
-          ..addAll(productList);
-        emit(
-          ProductListStateLoaded(updatedProductList, productList.isNotEmpty),
-        );
-        debugPrint('Loaded ${productList.length} additional products.');
-      }
-    } catch (e) {
-      emit(ProductListStateLoadingFailure(exception: e));
-    } finally {
-      isLoading = false;
+
+    final result = await productListRepository.getProductList(
+      categoryId: category?.categoryId,
+      offset: offset,
+    );
+
+    if (result.isError) {
+      isAllLoaded = true;
+      emit(ErrorState(message: result.error!));
+      return;
     }
+    loadedData.addAll(result.data!);
+    isAllLoaded = result.data!.isEmpty;
+    isLoading = false;
+    emit(DataFoundState(data: loadedData));
+    event.completer?.complete();
   }
 }

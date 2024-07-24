@@ -1,26 +1,39 @@
 import 'package:equatable/equatable.dart';
 
-abstract class BaseBlocState extends Equatable {
+abstract class BlocState extends Equatable {
+  const BlocState();
+
   @override
   List<Object?> get props => [];
 }
 
-abstract class BaseBlocLoadingState extends BaseBlocState {}
+class InitialState<T> extends BlocState {
+  final T? data;
 
-abstract class BaseBlocLoadedState<T> extends BaseBlocState {
-  BaseBlocLoadedState(this.itemList);
-
-  final List<T> itemList;
+  const InitialState([this.data]) : super();
 
   @override
-  List<Object?> get props => [itemList];
+  List<Object?> get props => [data];
 }
 
-abstract class BaseBlocLoadingFailureState extends BaseBlocState {
-  BaseBlocLoadingFailureState({this.exception});
+class LoadingState extends BlocState {
+  const LoadingState() : super();
+}
 
-  final Object? exception;
+class DataFoundState<T> extends BlocState {
+  final T data;
+
+  const DataFoundState({required this.data}) : super();
 
   @override
-  List<Object?> get props => [exception];
+  List<Object?> get props => [data];
+}
+
+class ErrorState extends BlocState {
+  final String message;
+
+  const ErrorState({required this.message}) : super();
+
+  @override
+  List<Object?> get props => [message];
 }

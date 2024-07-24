@@ -61,7 +61,7 @@ class ApiResponseParser {
   static ApiResponse<List<T>> parseListFromResponse<T>(
     BaseApiResponse response, {
     String? key,
-    required T Function(dynamic) fromJson,
+    required T Function(Map<String, dynamic>) fromJson,
     String? emptyError,
   }) {
     try {
@@ -83,7 +83,7 @@ class ApiResponseParser {
       }
       final list = (jsonData as List).map((e) => fromJson(e)).toList();
       return ApiResponse(
-        result: list,
+        data: list,
         baseApiResponse: response,
       );
     } catch (e, s) {
@@ -121,7 +121,7 @@ class ApiResponseParser {
       }
       final object = fromJson(jsonData);
       return ApiResponse(
-        result: object,
+        data: object,
         baseApiResponse: response,
       );
     } catch (e, s) {

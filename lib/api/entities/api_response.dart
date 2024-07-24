@@ -9,11 +9,11 @@ import 'package:wts_test/api/entities/base_api_response.dart';
 /// - Одна сущность - для методов загрузки одной сущности с сервера, например, профиль пользователя: User
 /// - [bool] - для методов - действий, например, "лайкнуть публикацю", "удалить публикацию"
 class ApiResponse<T> extends BaseApiResponse {
-  T? result;
+  T? data;
 
   ApiResponse({
     BaseApiResponse? baseApiResponse,
-    this.result,
+    this.data,
   }) : super(
           meta: baseApiResponse?.meta,
           rawData: baseApiResponse?.rawData,

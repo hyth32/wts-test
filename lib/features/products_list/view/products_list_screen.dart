@@ -9,6 +9,7 @@ import 'package:wts_test/features/products_list/widgets/product_tile.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key, required this.category});
@@ -38,7 +39,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   void _onScroll() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      _productListBloc.add(LoadMoreProducts());
+      _productListBloc.add(LoadProductList());
     }
   }
 
@@ -59,19 +60,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
         _productListBloc.add(LoadProductList(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<ProductListBloc, ProductListState,
-          ProductListStateLoaded>(
+      body: BaseBlocBuilder<ProductListBloc, List<Product>>(
         buildContent: (context, state) {
           return ListView.separated(
             controller: _scrollController,
             separatorBuilder: (context, index) => const SizedBox(height: 16),
             padding: const EdgeInsets.all(16),
-            itemCount: state.productList.length,
+            itemCount: state.data.length,
             itemBuilder: (context, index) {
-              if (index >= state.productList.length) {
+              if (index >= state.data.length) {
                 return const Center(child: CircularProgressIndicator());
               }
-              final product = state.productList[index];
+              final product = state.data[index];
               return ProductTile(
                 product: product,
                 onTap: () => Navigator.push(

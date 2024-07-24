@@ -38,10 +38,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         _productDetailsBloc.add(LoadProductDetails(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<ProductDetailsBloc, ProductDetailsState,
-          ProductDetailsLoaded>(
+      body: BaseBlocBuilder<ProductDetailsBloc, Product?>(
         buildContent: (context, state) {
-          return ProductDetailsTile(product: state.productDetails);
+          return ProductDetailsTile(product: state.data!);
         },
         bloc: _productDetailsBloc,
         onLoadingFailurePressed: () {

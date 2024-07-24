@@ -35,7 +35,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         _categoryBloc.add(LoadCategoryList(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
+      body: BaseBlocBuilder<CategoryBloc, List<Category>>(
         buildContent: (context, state) {
           return GridView.builder(
             padding: const EdgeInsets.all(16),
@@ -45,9 +45,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               crossAxisSpacing: 16,
               childAspectRatio: 2.25,
             ),
-            itemCount: state.categoryList.length,
+            itemCount: state.data.length,
             itemBuilder: (context, index) {
-              Category category = state.categoryList[index];
+              Category category = state.data[index];
               return CategoryTile(
                 category: category,
                 // TODO: Абстракт класс с роутами
