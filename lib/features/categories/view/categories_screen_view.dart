@@ -53,11 +53,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 // TODO: Абстракт класс с роутами
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => ProductListScreen(
-                      category: category,
-                    ),
-                  ),
+                  ProductRoutes.productList(category),
                 ),
               );
             },
@@ -70,4 +66,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
     );
   }
+}
+
+abstract class ProductRoutes {
+  static MaterialPageRoute productList(Category category) => MaterialPageRoute(
+        builder: (context) => ProductListScreen(
+          category: category,
+        ),
+      );
 }
