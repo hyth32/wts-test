@@ -6,6 +6,7 @@ import 'package:wts_test/repositories/product_details/abstract_product_details_r
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductDetailsRepository implements AbstractProductDetailsRepository {
+  // TODO: по аналогии другие репозитории
   @override
   Future<ApiResponse<Product>> getProductDetails(int productId) async {
     var queryParameters = {

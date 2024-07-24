@@ -30,7 +30,7 @@ class ProductDetailsBloc
         final response = await productDetailsRepository.getProductDetails(
           productId,
         );
-        // TODO: Обработать ошибку сервера тут либо в getProductDetails
+        // TODO: Обработать ошибку сервера
         // if (response.isError) => отобразить ошибку
         return [response.result!];
       },
