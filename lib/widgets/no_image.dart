@@ -12,13 +12,14 @@ class NoImageWidget extends StatelessWidget {
       ),
       constraints: const BoxConstraints(minHeight: 150, minWidth: 100),
       child: const Center(
-          child: Text(
-        'No image',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w300,
+        child: Text(
+          'No image',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w300,
+          ),
         ),
-      )),
+      ),
     );
   }
 }

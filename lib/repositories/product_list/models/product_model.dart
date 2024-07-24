@@ -27,11 +27,14 @@ class Product extends Equatable {
 
   bool get isAvailable => isAvailableForSale == 1;
 
-  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 
   @override
   List<Object?> get props => [
         productId,
         rating,
-  ];
+      ];
 }

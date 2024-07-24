@@ -12,12 +12,12 @@ class ProductListRepository implements AbstractProductListRepository {
       'offset': '$offset',
     };
     try {
-      final response = await GetIt.I<BaseApi>()
-          .get(
+      final response = await GetIt.I<BaseApi>().get(
         'common/product/list',
         queryParameters: queryParameters,
       ) as List<dynamic>;
-      List<Product> productList = response.map((item) => Product.fromJson(item)).toList();
+      List<Product> productList =
+          response.map((item) => Product.fromJson(item)).toList();
       return productList;
     } catch (e) {
       debugPrint('Exception: $e');

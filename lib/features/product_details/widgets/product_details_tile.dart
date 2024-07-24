@@ -5,35 +5,38 @@ import 'package:wts_test/widgets/text_decoration.dart';
 
 class ProductDetailsTile extends StatelessWidget {
   const ProductDetailsTile({super.key, required this.product});
+
   final Product product;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // TODO: Вынести в stateless что принимает ссылку на картинку.
+            // Можно использовать либу extended_image
             product.imageUrl != null
-                ? Image.network('${product.images?[0]}')
+                // TODO: тут product.images?.firstOrNull
+                ? Image.network('${product.images?.firstOrNull}')
                 : const NoImageWidget(),
             const SizedBox(height: 32),
             Text('Количество фотографий: ${product.images?.length}'),
             const SizedBox(height: 32),
             Text(product.title, style: Theme.of(context).textTheme.bodyLarge),
             Text('${product.price} ₽'),
-            const SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: 12),
             Text(
-                'Описание${product.productDescription.isNotEmpty ? ':\n${product.productDescription}' : 'отсутствует.'}'),
+              'Описание${product.productDescription.isNotEmpty ? ':\n${product.productDescription}' : 'отсутствует.'}',
+            ),
             const SizedBox(
               height: 12,
             ),
             TextDecoration(
-              text: 'Рейтинг${product.rating != null
-                  ? ': ${product.rating}'
-                  : ' недоступен'}',
+              text:
+                  'Рейтинг${product.rating != null ? ': ${product.rating}' : ' недоступен'}',
               verticalInset: 6,
             ),
             const SizedBox(height: 8),
@@ -41,7 +44,9 @@ class ProductDetailsTile extends StatelessWidget {
               text: '${product.isAvailable ? 'Есть' : 'Нет'} в продаже',
               verticalInset: 6,
             ),
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

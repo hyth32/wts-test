@@ -11,6 +11,7 @@ import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.product});
+
   final Product product;
 
   @override
@@ -37,15 +38,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         _productDetailsBloc.add(LoadProductDetails(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<ProductDetailsBloc, ProductDetailsState, ProductDetailsLoaded>(
-          buildContent: (context, state) {
-              return ProductDetailsTile(product: state.productDetails);
-          },
-          bloc: _productDetailsBloc,
-          onLoadingFailurePressed: () {
-            _productDetailsBloc.add(LoadProductDetails());
-          },
-        ),
+      body: BaseBlocBuilder<ProductDetailsBloc, ProductDetailsState,
+          ProductDetailsLoaded>(
+        buildContent: (context, state) {
+          return ProductDetailsTile(product: state.productDetails);
+        },
+        bloc: _productDetailsBloc,
+        onLoadingFailurePressed: () {
+          _productDetailsBloc.add(LoadProductDetails());
+        },
+      ),
     );
   }
 }

@@ -29,42 +29,45 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseRefreshScaffold(
-        appBarTitle: 'Категории',
-        onRefresh: () async {
-          final completer = Completer();
-          _categoryBloc.add(LoadCategoryList(completer: completer));
-          return completer.future;
-        },
-        body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
-          buildContent: (context, state) {
-            return GridView.builder(
-                padding: const EdgeInsets.all(16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 2.25,
-                ),
-                itemCount: state.categoryList.length,
-                itemBuilder: (context, index) {
-                  Category category = state.categoryList[index];
-                  return CategoryTile(
+      appBarTitle: 'Категории',
+      onRefresh: () async {
+        final completer = Completer();
+        _categoryBloc.add(LoadCategoryList(completer: completer));
+        return completer.future;
+      },
+      body: BaseBlocBuilder<CategoryBloc, CategoryState, CategoryListLoaded>(
+        buildContent: (context, state) {
+          return GridView.builder(
+            padding: const EdgeInsets.all(16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 2.25,
+            ),
+            itemCount: state.categoryList.length,
+            itemBuilder: (context, index) {
+              Category category = state.categoryList[index];
+              return CategoryTile(
+                category: category,
+                // TODO: Абстракт класс с роутами
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductListScreen(
                       category: category,
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProductListScreen(
-                              category: category,
-                            )),
-                        );
-                      });
-                });
+                    ),
+                  ),
+                ),
+              );
             },
-            onLoadingFailurePressed: () {
-              _categoryBloc.add(LoadCategoryList());
-            },
-            bloc: _categoryBloc,
-          ),
-        );
+          );
+        },
+        onLoadingFailurePressed: () {
+          _categoryBloc.add(LoadCategoryList());
+        },
+        bloc: _categoryBloc,
+      ),
+    );
   }
 }

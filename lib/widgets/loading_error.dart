@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LoadingErrorWidget extends StatelessWidget {
-  const LoadingErrorWidget({super.key, required this.onPressed});
+  final VoidCallback onPressed;
+
+  const LoadingErrorWidget({
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +26,4 @@ class LoadingErrorWidget extends StatelessWidget {
       ),
     );
   }
-
-  final VoidCallback onPressed;
 }
