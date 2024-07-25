@@ -23,6 +23,8 @@ class Category extends Equatable {
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 
+  Map<String, dynamic> toJson() => _$CategoryToJson(this);
+
   @override
   List<Object?> get props => [
         categoryId,

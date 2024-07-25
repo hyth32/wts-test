@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wts_test/abstract/base_refresh_scaffold.dart';
-import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/abstract/base_navigation_tile_widget.dart';
+import 'package:wts_test/abstract/base_refresh_scaffold.dart';
 import 'package:wts_test/abstract/base_separated_listview.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/features/product_details/view/product_details_screen.dart';
 import 'package:wts_test/features/products_list/widgets/product_tile.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key, required this.category});
@@ -38,7 +39,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void _onScroll() {
     if (_scrollController.position.atEdge) {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         _productListBloc.add(LoadMoreProducts());
       }
     }
@@ -54,6 +56,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Тут имелось ввиду, что это будет не обертка
+    // А будет базовый класс с scaffold, appbar и прочее, в TODO.md отпишу
     return BaseRefreshScaffold(
       appBarTitle: widget.category.title,
       onRefresh: () async {
@@ -61,18 +65,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
         _productListBloc.add(LoadProductList(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<ProductListBloc, ProductListState,
-          ProductListStateLoaded>(
+      body: BaseBlocBuilder<ProductListBloc, List<Product>>(
         buildContent: (context, state) {
           return BaseSeparatedListview(
             scrollController: _scrollController,
             separator: const SizedBox(height: 16),
-            itemCount: state.productList.length,
+            itemCount: state.data.length,
             buildContent: (context, index) {
-              if (index >= state.productList.length) {
+              if (index >= state.data.length) {
                 return const Center(child: CircularProgressIndicator());
               }
-              final product = state.productList[index];
+              final product = state.data[index];
               return BaseNavigationTileWidget(
                 pageToNavigate: ProductDetailsScreen(product: product),
                 child: ProductTile(product: product),

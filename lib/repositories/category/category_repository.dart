@@ -1,31 +1,31 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wts_test/api/api_response_parser.dart';
 import 'package:wts_test/api/base_api/base_api.dart';
+import 'package:wts_test/api/entities/api_response.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 
 import 'abstract_category_repository.dart';
 
 class CategoryRepository implements AbstractCategoryRepository {
+  static const Category allProductsCategory = Category(
+    categoryId: 0,
+    title: 'Все товары',
+    imageUrl: null,
+    hasSubcategories: 0,
+    fullName: 'Все товары',
+    categoryDescription: 'Все товары в каталоге',
+  );
+
   @override
-  Future<List<Category>> getCategoriesList() async {
-    try {
-      final response = await GetIt.I<BaseApi>().get('common/category/list') as Map<String, dynamic>;
-      final rawCategories = response['categories'] as List<dynamic>;
-      List<Category> categories = rawCategories.map((item) => Category.fromJson(item)).toList();
-      categories.insert(0, allProductsCategory);
-      return categories;
-    } catch (e) {
-      debugPrint('Exception: $e');
-      return <Category>[];
-    }
+  Future<ApiResponse<List<Category>>> getCategoriesList() async {
+    final response = await GetIt.I<BaseApi>().get(
+      'common/category/list',
+    );
+
+    return ApiResponseParser.parseListFromResponse(
+      response,
+      key: 'categories',
+      fromJson: Category.fromJson,
+    );
   }
 }
-
-const Category allProductsCategory = Category(
-  categoryId: 0,
-  title: 'Все товары',
-  imageUrl: null,
-  hasSubcategories: 0,
-  fullName: 'Все товары',
-  categoryDescription: 'Все товары в каталоге',
-);
