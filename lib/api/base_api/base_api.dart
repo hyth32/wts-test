@@ -1,14 +1,21 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:wts_test/api/base_api/base_api_request.dart';
+import 'package:wts_test/api/api_response_parser.dart';
+import 'package:wts_test/api/entities/base_api_response.dart';
 import 'package:wts_test/config.dart';
 
 class BaseApi {
   BaseApi({required this.dio});
 
   final Dio dio;
+
+  Map<String, dynamic>? prepareQueryParameters(
+    Map<String, dynamic>? queryParameters,
+  ) {
+    queryParameters ??= {};
+    queryParameters['appKey'] = Config.appKey;
+    return queryParameters;
+  }
 
   Uri buildUri({
     required String relativePath,
@@ -21,7 +28,7 @@ class BaseApi {
     );
   }
 
-  Future<dynamic> get(
+  Future<BaseApiResponse> get(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -29,24 +36,17 @@ class BaseApi {
       relativePath: path,
       queryParameters: queryParameters,
     );
-    queryParameters ??= {};
-    queryParameters['appKey'] = Config.appKey;
     try {
       final response = await dio.get(
         uri.toString(),
-        queryParameters: queryParameters,
+        queryParameters: prepareQueryParameters(queryParameters),
       );
-      final responseData = response.data as Map<String, dynamic>;
-      final meta = ApiResponseMeta.fromJson (responseData['meta']);
-
-      if (meta.success) {
-        final data = responseData['data'];
-        return data;
-      }
-      return [];
-    } catch (e) {
-      debugPrint('Exception: $e');
-      return [];
+      return ApiResponseParser.parseRawResponse(response);
+    } catch (e, s) {
+      debugPrint('Exception: $e\n$s');
+      return BaseApiResponse(
+        error: e.toString(),
+      );
     }
   }
 }

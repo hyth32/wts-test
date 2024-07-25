@@ -33,14 +33,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     return BaseRefreshScaffold(
       appBarTitle: widget.product.title,
-      onRefresh: () async {final completer = Completer();
+      onRefresh: () async {
+        final completer = Completer();
         _productDetailsBloc.add(LoadProductDetails(completer: completer));
         return completer.future;
       },
-      body: BaseBlocBuilder<ProductDetailsBloc, ProductDetailsState,
-          ProductDetailsLoaded>(
+      body: BaseBlocBuilder<ProductDetailsBloc, Product?>(
         buildContent: (context, state) {
-          return ProductDetailsTile(product: state.productDetails);
+          return ProductDetailsTile(product: state.data!);
         },
         bloc: _productDetailsBloc,
         onLoadingFailurePressed: () =>

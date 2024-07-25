@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'base_api_request.dart';
+part of 'api_response_meta.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,12 +8,14 @@ part of 'base_api_request.dart';
 
 ApiResponseMeta _$ApiResponseMetaFromJson(Map<String, dynamic> json) =>
     ApiResponseMeta(
-      success: json['success'] as bool,
-      error: json['error'] as String,
+      error: json['error'] as String?,
+      invalidAccessToken: json['invalidAccessToken'] as bool?,
+      success: json['success'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ApiResponseMetaToJson(ApiResponseMeta instance) =>
     <String, dynamic>{
-      'success': instance.success,
       'error': instance.error,
+      'invalidAccessToken': instance.invalidAccessToken,
+      'success': instance.success,
     };
