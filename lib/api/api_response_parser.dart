@@ -16,23 +16,24 @@ class ApiResponseParser {
   }
 
   static BaseApiResponse _parseBasicBody(Response response, [String? key]) {
-    var responseData = response.data['data'];
-    var responseMeta = response.data['meta'];
+    var data = response.data as Map<String, dynamic>;
+    var responseData = data['data'] as Map<String, dynamic>;
+    var responseMeta = data['meta'];
     if (key != null) {
       responseData = responseData[key];
     }
-    if (responseData == null) {
-      return BaseApiResponse(
-        error: defaultErrorMessage,
-        statusCode: response.statusCode,
-      );
-    }
-    if (responseData == null) {
-      return BaseApiResponse(
-        error: 'Не удалось получить data часть запроса',
-        rawData: responseData.toString(),
-      );
-    }
+    // if (responseData == null) {
+    //   return BaseApiResponse(
+    //     error: defaultErrorMessage,
+    //     statusCode: response.statusCode,
+    //   );
+    // }
+    // if (responseData == null) {
+    //   return BaseApiResponse(
+    //     error: 'Не удалось получить data часть запроса',
+    //     rawData: responseData.toString(),
+    //   );
+    // }
     try {
       var apiResponseMeta = ApiResponseMeta.fromJson(responseMeta);
 
@@ -60,8 +61,8 @@ class ApiResponseParser {
   /// Парсинг списка объектов из результата выполненного запроса к API.
   static ApiResponse<List<T>> parseListFromResponse<T>(
     BaseApiResponse response, {
-    String? key,
     required T Function(Map<String, dynamic>) fromJson,
+    String? key,
     String? emptyError,
   }) {
     try {
@@ -73,7 +74,7 @@ class ApiResponseParser {
       }
 
       var jsonData = (key?.isNotEmpty ?? false)
-          ? response.dataJson[key]
+          ? (response.dataJson as Map<String, dynamic>)[key]
           : response.dataJson;
       if (jsonData == null) {
         return ApiResponse.error(
@@ -111,7 +112,7 @@ class ApiResponseParser {
       }
 
       var jsonData = (key?.isNotEmpty ?? false)
-          ? response.dataJson[key]
+          ? (response.dataJson as Map<String, dynamic>)[key]
           : response.dataJson;
       if (jsonData == null) {
         return ApiResponse.error(

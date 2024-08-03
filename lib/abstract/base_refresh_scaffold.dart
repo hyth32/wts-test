@@ -15,19 +15,6 @@ class BaseRefreshScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          appBarTitle,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            color: Colors.grey[850],
-            height: 1,
-          ),
-        ),
-      ),
       body: RefreshIndicator(
         onRefresh: onRefresh,
         child: body,

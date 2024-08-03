@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wts_test/features/categories/view/categories_screen.dart';
 import 'package:wts_test/theme.dart';
-
-import 'features/categories/view/categories_screen.dart';
 
 class ShopApp extends StatelessWidget {
   const ShopApp({super.key});
@@ -11,7 +10,6 @@ class ShopApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Shop',
-      // routes: routes,
       theme: theme,
       home: const CategoriesScreen(),
     );
