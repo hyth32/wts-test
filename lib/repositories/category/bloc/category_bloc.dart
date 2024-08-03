@@ -25,7 +25,7 @@ class CategoryBloc extends BaseBloc<CategoryEvent, BlocState, Category> {
       emit(ErrorState(message: response.error!));
       return;
     }
-    emit(DataFoundState(data: response.data));
+    emit(DataFoundState(data: response.data!));
     event.completer?.complete();
   }
 }

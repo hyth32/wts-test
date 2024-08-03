@@ -17,10 +17,10 @@ class ApiResponseParser {
 
   static BaseApiResponse _parseBasicBody(Response response, [String? key]) {
     var data = response.data as Map<String, dynamic>;
-    var responseData = data['data'] as Map<String, dynamic>;
+    var responseData = data['data'];
     var responseMeta = data['meta'];
     if (key != null) {
-      responseData = responseData[key];
+      responseData = (responseData as Map<String, dynamic>)[key];
     }
     // if (responseData == null) {
     //   return BaseApiResponse(

@@ -1,16 +1,17 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wts_test/abstract/base_refresh_scaffold.dart';
+import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/features/product_details/widgets/product_details_tile.dart';
 import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 import 'package:wts_test/repositories/product_details/bloc/product_details_bloc.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key, required this.product});
+class ProductDetailsScreen extends BasePage {
+  ProductDetailsScreen({
+    required this.product,
+    super.key,
+  }) : super(title: product.title);
 
   final Product product;
 
@@ -18,7 +19,7 @@ class ProductDetailsScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProductDetailsScreenState();
 }
 
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
   late final ProductDetailsBloc _productDetailsBloc;
 
   @override
@@ -30,22 +31,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BaseRefreshScaffold(
-      appBarTitle: widget.product.title,
-      onRefresh: () async {
-        final completer = Completer();
-        _productDetailsBloc.add(LoadProductDetails(completer: completer));
-        return completer.future;
+  Widget buildBody(BuildContext context) {
+    return BaseBlocBuilder<ProductDetailsBloc, Product?>(
+      buildContent: (context, state) {
+        return ProductDetailsTile(product: state.data!);
       },
-      body: BaseBlocBuilder<ProductDetailsBloc, Product?>(
-        buildContent: (context, state) {
-          return ProductDetailsTile(product: state.data!);
-        },
-        bloc: _productDetailsBloc,
-        onLoadingFailurePressed: () =>
-            _productDetailsBloc.add(LoadProductDetails()),
-      ),
+      bloc: _productDetailsBloc,
+      onLoadingFailurePressed: () =>
+          _productDetailsBloc.add(LoadProductDetails()),
     );
   }
 }
+
+// onRefresh: () async {
+//         final completer = Completer();
+//         _productDetailsBloc.add(LoadProductDetails(completer: completer));
+//         return completer.future;
+//       },

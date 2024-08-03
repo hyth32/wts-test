@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_navigation_tile_widget.dart';
-import 'package:wts_test/abstract/base_refresh_scaffold.dart';
+import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/base_separated_listview.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/features/product_details/view/product_details_screen.dart';
@@ -13,8 +11,11 @@ import 'package:wts_test/repositories/product_list/abstract_product_list_reposit
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({super.key, required this.category});
+class ProductListScreen extends BasePage {
+  ProductListScreen({
+    required this.category,
+    super.key,
+  }) : super(title: category.title);
 
   final Category category;
 
@@ -22,7 +23,7 @@ class ProductListScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProductListScreenState();
 }
 
-class _ProductListScreenState extends State<ProductListScreen> {
+class _ProductListScreenState extends BasePageState<ProductListScreen> {
   late ProductListBloc _productListBloc;
   final ScrollController _scrollController = ScrollController();
 
@@ -55,37 +56,33 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: Тут имелось ввиду, что это будет не обертка
-    // А будет базовый класс с scaffold, appbar и прочее, в TODO.md отпишу
-    return BaseRefreshScaffold(
-      appBarTitle: widget.category.title,
-      onRefresh: () async {
-        final completer = Completer();
-        _productListBloc.add(LoadProductList(completer: completer));
-        return completer.future;
+  Widget buildBody(BuildContext context) {
+    return BaseBlocBuilder<ProductListBloc, List<Product>>(
+      buildContent: (context, state) {
+        return BaseSeparatedListview(
+          scrollController: _scrollController,
+          separator: const SizedBox(height: 16),
+          itemCount: state.data.length,
+          buildContent: (context, index) {
+            if (index >= state.data.length) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            final product = state.data[index];
+            return BaseNavigationTileWidget(
+              pageToNavigate: ProductDetailsScreen(product: product),
+              child: ProductTile(product: product),
+            );
+          },
+        );
       },
-      body: BaseBlocBuilder<ProductListBloc, List<Product>>(
-        buildContent: (context, state) {
-          return BaseSeparatedListview(
-            scrollController: _scrollController,
-            separator: const SizedBox(height: 16),
-            itemCount: state.data.length,
-            buildContent: (context, index) {
-              if (index >= state.data.length) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final product = state.data[index];
-              return BaseNavigationTileWidget(
-                pageToNavigate: ProductDetailsScreen(product: product),
-                child: ProductTile(product: product),
-              );
-            },
-          );
-        },
-        bloc: _productListBloc,
-        onLoadingFailurePressed: () => _productListBloc.add(LoadProductList()),
-      ),
+      bloc: _productListBloc,
+      onLoadingFailurePressed: () => _productListBloc.add(LoadProductList()),
     );
   }
 }
+
+// onRefresh: () async {
+//         final completer = Completer();
+//         _productListBloc.add(LoadProductList(completer: completer));
+//         return completer.future;
+//       },
