@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wts_test/abstract/base_listview_page.dart';
 import 'package:wts_test/abstract/base_navigation_tile_widget.dart';
-import 'package:wts_test/abstract/base_page.dart';
-import 'package:wts_test/abstract/base_separated_listview.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/features/product_details/view/product_details_screen.dart';
 import 'package:wts_test/features/products_list/widgets/product_tile.dart';
@@ -11,21 +12,24 @@ import 'package:wts_test/repositories/product_list/abstract_product_list_reposit
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-class ProductListScreen extends BasePage {
+class ProductListScreen extends BaseListviewPage {
+  final Category category;
+
   ProductListScreen({
     required this.category,
     super.key,
-  }) : super(title: category.title);
-
-  final Category category;
+  }) : super(
+            title: category.title,
+            shouldBeRefreshable: true,
+            shouldBeSeparated: true,
+            scrollController: ScrollController());
 
   @override
-  State<StatefulWidget> createState() => _ProductListScreenState();
+  State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
-class _ProductListScreenState extends BasePageState<ProductListScreen> {
+class _ProductListScreenState extends BaseListviewPageState<ProductListScreen> {
   late ProductListBloc _productListBloc;
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -35,54 +39,55 @@ class _ProductListScreenState extends BasePageState<ProductListScreen> {
       widget.category,
     );
     _productListBloc.add(LoadProductList());
-    _scrollController.addListener(_onScroll);
+    widget.scrollController!.addListener(_onScroll);
   }
 
   void _onScroll() {
-    if (_scrollController.position.atEdge) {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        _productListBloc.add(LoadMoreProducts());
+    if (!mounted) return;
+
+    if (widget.scrollController!.position.atEdge) {
+      if (widget.scrollController!.position.pixels ==
+          widget.scrollController!.position.maxScrollExtent) {
+        _productListBloc.add(LoadProductList());
       }
     }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    widget.scrollController!.removeListener(_onScroll);
+    // widget.scrollController!.dispose();
     _productListBloc.close();
     super.dispose();
   }
 
   @override
-  Widget buildBody(BuildContext context) {
+  Widget buildListItem(BuildContext context, int index) {
+    var product = _productListBloc.loadedData[index];
+    return BaseNavigationTileWidget(
+      pageToNavigate: ProductDetailsScreen(product: product),
+      child: ProductTile(product: product),
+    );
+  }
+
+  @override
+  Widget buildListViewBody(BuildContext context) {
     return BaseBlocBuilder<ProductListBloc, List<Product>>(
       buildContent: (context, state) {
-        return BaseSeparatedListview(
-          scrollController: _scrollController,
-          separator: const SizedBox(height: 16),
-          itemCount: state.data.length,
-          buildContent: (context, index) {
-            if (index >= state.data.length) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final product = state.data[index];
-            return BaseNavigationTileWidget(
-              pageToNavigate: ProductDetailsScreen(product: product),
-              child: ProductTile(product: product),
-            );
-          },
-        );
+        return super.buildListViewBody(context);
       },
       bloc: _productListBloc,
       onLoadingFailurePressed: () => _productListBloc.add(LoadProductList()),
     );
   }
-}
 
-// onRefresh: () async {
-//         final completer = Completer();
-//         _productListBloc.add(LoadProductList(completer: completer));
-//         return completer.future;
-//       },
+  @override
+  Future<void> handleRefresh() {
+    final completer = Completer();
+    _productListBloc.add(LoadProductList(completer: completer));
+    return completer.future;
+  }
+
+  @override
+  int get itemCount => _productListBloc.loadedData.length;
+}

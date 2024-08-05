@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
@@ -46,6 +47,7 @@ class ProductListBloc
     }
     loadedData.addAll(result.data!);
     isAllLoaded = result.data!.isEmpty;
+    debugPrint(isAllLoaded.toString());
     isLoading = false;
     emit(DataFoundState(data: loadedData));
     event.completer?.complete();

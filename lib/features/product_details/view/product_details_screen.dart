@@ -42,9 +42,3 @@ class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
     );
   }
 }
-
-// onRefresh: () async {
-//         final completer = Completer();
-//         _productDetailsBloc.add(LoadProductDetails(completer: completer));
-//         return completer.future;
-//       },

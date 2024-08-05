@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wts_test/repositories/product_list/models/bool_json_converter.dart';
 
 part 'product_model.g.dart';
 
@@ -23,11 +24,9 @@ class Product extends Equatable {
   final double? rating;
   final String? imageUrl;
   final List<String>? images;
-
-  //TODO: Добавить кастомный BoolJsonConverter
   final int isAvailableForSale;
 
-  bool get isAvailable => isAvailableForSale == 1;
+  bool get isAvailable => BoolJsonConverter.toBool(isAvailableForSale);
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
