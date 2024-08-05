@@ -10,7 +10,7 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
           color: Colors.grey[850], borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -18,9 +18,10 @@ class ProductTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            product.imageUrl!.isNotEmpty
-                ? BaseNetworkImage(imageUrl: product.imageUrl!)
-                : const NoImageWidget(),
+            if (product.imageUrl!.isNotEmpty)
+              BaseNetworkImage(imageUrl: product.imageUrl!)
+            else
+              const NoImageWidget(),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.only(left: 8),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wts_test/abstract/base_network_image.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 import 'package:wts_test/widgets/no_image.dart';
 import 'package:wts_test/widgets/text_decoration.dart';
@@ -15,9 +16,10 @@ class ProductDetailsTile extends StatelessWidget {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            product.imageUrl != null
-                ? Image.network('${product.images?[0]}')
-                : const NoImageWidget(),
+            if (product.imageUrl != null)
+              BaseNetworkImage(imageUrl: '${product.images?[0]}')
+            else
+              const NoImageWidget(),
             const SizedBox(height: 32),
             Text(
               'Количество фотографий: ${product.images?.length}',

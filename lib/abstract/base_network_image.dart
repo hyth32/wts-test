@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class BaseNetworkImage extends StatelessWidget {
@@ -10,20 +11,11 @@ class BaseNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
+    return ExtendedImage.network(
       imageUrl,
       width: double.infinity,
       fit: BoxFit.cover,
-      loadingBuilder: (
-        BuildContext context,
-        Widget child,
-        ImageChunkEvent? loadingProgress,
-      ) {
-        if (loadingProgress == null) {
-          return child;
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
+      handleLoadingProgress: true,
     );
   }
 }

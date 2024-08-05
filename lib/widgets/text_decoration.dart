@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class TextDecorationWidget extends StatelessWidget {
   const TextDecorationWidget({
-    super.key,
     required this.text,
+    super.key,
     this.backgroundColor,
     this.verticalInset,
     this.borderRadius,
@@ -16,7 +16,7 @@ class TextDecorationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius ?? 12),
         color: backgroundColor ?? Colors.grey[850],
