@@ -34,7 +34,12 @@ class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
   Widget buildBody(BuildContext context) {
     return BaseBlocBuilder<ProductDetailsBloc, Product?>(
       buildContent: (context, state) {
-        return ProductDetailsTile(product: state.data!);
+        return ProductDetailsTile(
+          title: state.data!.title,
+          imageUrl: state.data!.imageUrl,
+          price: state.data!.price,
+          product: state.data!,
+        );
       },
       bloc: _productDetailsBloc,
       onLoadingFailurePressed: () =>

@@ -66,7 +66,11 @@ class _ProductListScreenState extends BaseListviewPageState<ProductListScreen> {
     var product = _productListBloc.loadedData[index];
     return BaseNavigationTileWidget(
       pageToNavigate: ProductDetailsScreen(product: product),
-      child: ProductTile(product: product),
+      child: ProductTile(
+        title: product.title,
+        imageUrl: product.imageUrl,
+        price: product.price,
+      ),
     );
   }
 

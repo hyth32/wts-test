@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class BaseNetworkImage extends StatelessWidget {
   const BaseNetworkImage({
-    super.key,
     required this.imageUrl,
+    super.key,
   });
 
   final String imageUrl;
