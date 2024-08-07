@@ -22,7 +22,8 @@ class ProductDetailsTile extends BaseTile {
       ),
       const SizedBox(height: 12),
       buildDecoratedText(
-          'Рейтинг${product.rating != null ? ': ${product.rating}' : ' недоступен'}'),
+        'Рейтинг${product.rating != null ? ': ${product.rating}' : ' недоступен'}',
+      ),
       const SizedBox(height: 8),
       buildDecoratedText('${product.isAvailable ? 'Есть' : 'Нет'} в продаже'),
     ]);

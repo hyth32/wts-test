@@ -15,55 +15,32 @@ import 'package:wts_test/repositories/product_list/models/product_model.dart';
 class ProductListScreen extends BaseListviewPage {
   final Category category;
 
-  ProductListScreen({
+  const ProductListScreen({
     required this.category,
     super.key,
-  }) : super(
-            title: category.title,
-            shouldBeRefreshable: true,
-            shouldBeSeparated: true,
-            scrollController: ScrollController());
+  });
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
-class _ProductListScreenState extends BaseListviewPageState<ProductListScreen> {
-  late ProductListBloc _productListBloc;
-
+class _ProductListScreenState
+    extends BaseListviewPageState<ProductListScreen, ProductListBloc> {
   @override
-  void initState() {
-    super.initState();
-    _productListBloc = ProductListBloc(
-      GetIt.I<AbstractProductListRepository>(),
-      widget.category,
-    );
-    _productListBloc.add(LoadProductList());
-    widget.scrollController!.addListener(_onScroll);
-  }
+  ProductListBloc createModel() => ProductListBloc(
+        GetIt.I<AbstractProductListRepository>(),
+        widget.category,
+      );
 
-  void _onScroll() {
-    if (!mounted) return;
-
-    if (widget.scrollController!.position.atEdge) {
-      if (widget.scrollController!.position.pixels ==
-          widget.scrollController!.position.maxScrollExtent) {
-        _productListBloc.add(LoadProductList());
-      }
-    }
-  }
-
+  // TODO: можно в BaseListviewPageState, ProductListBloc будет наследовать базовый блок для списков
   @override
-  void dispose() {
-    widget.scrollController!.removeListener(_onScroll);
-    // widget.scrollController!.dispose();
-    _productListBloc.close();
-    super.dispose();
+  void loadMore() {
+    listModel.add(LoadProductList());
   }
 
   @override
   Widget buildListItem(BuildContext context, int index) {
-    var product = _productListBloc.loadedData[index];
+    final product = listModel.loadedData[index];
     return BaseNavigationTileWidget(
       pageToNavigate: ProductDetailsScreen(product: product),
       child: ProductTile(
@@ -80,18 +57,18 @@ class _ProductListScreenState extends BaseListviewPageState<ProductListScreen> {
       buildContent: (context, state) {
         return super.buildListViewBody(context);
       },
-      bloc: _productListBloc,
-      onLoadingFailurePressed: () => _productListBloc.add(LoadProductList()),
+      bloc: listModel,
+      onLoadingFailurePressed: () => listModel.add(LoadProductList()),
     );
   }
 
   @override
   Future<void> handleRefresh() {
     final completer = Completer();
-    _productListBloc.add(LoadProductList(completer: completer));
+    listModel.add(LoadProductList(completer: completer));
     return completer.future;
   }
 
   @override
-  int get itemCount => _productListBloc.loadedData.length;
+  int get itemCount => listModel.loadedData.length;
 }

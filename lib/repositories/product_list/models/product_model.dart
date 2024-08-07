@@ -5,6 +5,7 @@ import 'package:wts_test/repositories/product_list/models/bool_json_converter.da
 part 'product_model.g.dart';
 
 @JsonSerializable()
+// TODO: BoolJsonConverter()
 class Product extends Equatable {
   const Product({
     required this.productId,
@@ -24,6 +25,8 @@ class Product extends Equatable {
   final double? rating;
   final String? imageUrl;
   final List<String>? images;
+
+  // TOOD: final bool isAvailableForSale;
   final int isAvailableForSale;
 
   bool get isAvailable => BoolJsonConverter.toBool(isAvailableForSale);

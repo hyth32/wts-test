@@ -1,3 +1,5 @@
+
+// TODO: наследовать от JsonConverter<bool, int?>
 class BoolJsonConverter {
   final dynamic fromJson;
   final bool? fromBool;

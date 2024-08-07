@@ -19,6 +19,7 @@ class ProductDetailsScreen extends BasePage {
   State<StatefulWidget> createState() => _ProductDetailsScreenState();
 }
 
+// TODO: базвый стейт для деталей сущности, по аналогии со списком
 class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
   late final ProductDetailsBloc _productDetailsBloc;
 
@@ -32,6 +33,7 @@ class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
 
   @override
   Widget buildBody(BuildContext context) {
+    // TODO: Потом можно вынести в базовый стейт будет на generic`ах
     return BaseBlocBuilder<ProductDetailsBloc, Product?>(
       buildContent: (context, state) {
         return ProductDetailsTile(
