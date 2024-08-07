@@ -11,6 +11,7 @@ import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 part 'product_list_event.dart';
 
+// TODO: базовый списочный блок для обработки всех данных, состояний и т.д.
 class ProductListBloc
     extends BaseBloc<ProductListEvent, BlocState, List<Product>> {
   final Category? category;

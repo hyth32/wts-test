@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 class BaseGridviewBuilder extends StatelessWidget {
   const BaseGridviewBuilder({
-    super.key,
     required this.buildContent,
     required this.itemCount,
+    super.key,
     this.edgeInsets,
   });
 

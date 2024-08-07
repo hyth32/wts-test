@@ -5,5 +5,3 @@ class ProductListEvent extends BaseBlocEvent {}
 class LoadProductList extends BaseBlockLoadEvent implements ProductListEvent {
   LoadProductList({super.completer});
 }
-
-class LoadMoreProducts extends BaseBlockLoadMoreEvent implements ProductListEvent {}
