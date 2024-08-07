@@ -53,6 +53,7 @@ class _ProductListScreenState
 
   @override
   Widget buildListViewBody(BuildContext context) {
+    //TODO: Можно в BaseListviewPageState
     return BaseBlocBuilder<ProductListBloc, List<Product>>(
       buildContent: (context, state) {
         return super.buildListViewBody(context);
@@ -64,6 +65,7 @@ class _ProductListScreenState
 
   @override
   Future<void> handleRefresh() {
+    //TODO: Можно в BaseListviewPageState
     final completer = Completer();
     listModel.add(LoadProductList(completer: completer));
     return completer.future;
