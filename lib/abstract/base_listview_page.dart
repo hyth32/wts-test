@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:wts_test/abstract/base_page.dart';
+import 'package:wts_test/abstract/bloc/base_bloc.dart';
 
 abstract class BaseListviewPage extends BasePage {
-  final bool shouldBeRefreshable;
-  final bool shouldBeSeparated;
-  final ScrollController? scrollController;
-
   const BaseListviewPage({
     super.key,
     super.title,
-    this.shouldBeRefreshable = false,
-    this.shouldBeSeparated = false,
-    this.scrollController,
   });
 }
 
-abstract class BaseListviewPageState<T extends BaseListviewPage>
-    extends BasePageState<T> {
+abstract class BaseListviewPageState<T extends BaseListviewPage,
+    B extends BaseBloc> extends BasePageState<T> {
+  final bool shouldBeRefreshable = false;
+  final bool shouldBeSeparated = false;
+  final ScrollController scrollController = ScrollController();
+
+  late final B listModel = createModel();
+
+  /// Переопределить для создания модели
+  B createModel();
+
+  @override
+  void initState() {
+    scrollController.addListener(_onScroll);
+    // TODO: Базовый event на загрузку данных блока
+    // listModel.add(LoadProductList());
+    super.initState();
+  }
+
+  void _onScroll() {
+    if (!mounted) return;
+    if (scrollController.position.atEdge) {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        loadMore();
+      }
+    }
+  }
+
+  void loadMore();
+
   @override
   Widget buildBody(BuildContext context) {
-    var listViewBody = buildListViewBody(context);
-    if (widget.shouldBeRefreshable) {
+    final listViewBody = buildListViewBody(context);
+    if (shouldBeRefreshable) {
       return RefreshIndicator(
         child: listViewBody,
         onRefresh: handleRefresh,
@@ -33,19 +56,20 @@ abstract class BaseListviewPageState<T extends BaseListviewPage>
   Widget buildListViewBody(BuildContext context) {
     if (shouldBeSeparated) {
       return ListView.separated(
-          controller: widget.scrollController,
-          padding: const EdgeInsets.all(16),
-          separatorBuilder: buildSeparator,
-          itemCount: itemCount + 1,
-          itemBuilder: (context, index) {
-            if (index >= itemCount) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return buildListItem(context, index);
-          });
+        controller: scrollController,
+        padding: const EdgeInsets.all(16),
+        separatorBuilder: buildSeparator,
+        itemCount: itemCount + 1,
+        itemBuilder: (context, index) {
+          if (index >= itemCount) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return buildListItem(context, index);
+        },
+      );
     }
     return ListView.builder(
-      controller: widget.scrollController,
+      controller: scrollController,
       padding: const EdgeInsets.all(16),
       itemCount: itemCount + 1,
       itemBuilder: (context, index) {
@@ -71,9 +95,11 @@ abstract class BaseListviewPageState<T extends BaseListviewPage>
   @protected
   int get itemCount;
 
-  @protected
-  bool get shouldBeRefreshable => widget.shouldBeRefreshable;
-
-  @protected
-  bool get shouldBeSeparated => widget.shouldBeSeparated;
+  @override
+  void dispose() {
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    listModel.close();
+    super.dispose();
+  }
 }
