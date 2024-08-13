@@ -5,8 +5,6 @@ import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 import 'package:wts_test/repositories/category/abstract_category_repository.dart';
 
-// part 'category_event.dart';
-
 class CategoryBloc extends BaseBloc<BaseBlocEvent, BlocState, Category> {
   final AbstractCategoryRepository categoryRepository;
 
