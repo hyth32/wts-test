@@ -9,7 +9,6 @@ class CategoryRepository implements AbstractCategoryRepository {
   static const Category allProductsCategory = Category(
     categoryId: 0,
     title: 'Все товары',
-    imageUrl: null,
     hasSubcategories: 0,
     fullName: 'Все товары',
     categoryDescription: 'Все товары в каталоге',

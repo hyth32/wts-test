@@ -26,7 +26,6 @@ class ApiResponse<T> extends BaseApiResponse {
   ApiResponse.error({
     required String error,
     BaseApiResponse? baseApiResponse,
-    String? errorCode,
   }) : super(
           error: error,
           statusCode: baseApiResponse?.statusCode,

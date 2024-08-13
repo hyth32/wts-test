@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class BaseRefreshScaffold extends StatelessWidget {
   const BaseRefreshScaffold({
-    super.key,
     required this.appBarTitle,
     required this.body,
     required this.onRefresh,
+    super.key,
   });
 
   final String appBarTitle;

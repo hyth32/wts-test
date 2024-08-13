@@ -19,9 +19,9 @@ abstract class BaseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var body = buildBody(context);
-    var bodyWithBasicInfo = buildBasicInfo(context, body);
-    var tile = shouldBeScrollable!
+    final body = buildBody(context);
+    final bodyWithBasicInfo = buildBasicInfo(context, body);
+    final tile = shouldBeScrollable!
         ? buildSingleScrollChildView(context, bodyWithBasicInfo)
         : buildDecoratedBox(context, bodyWithBasicInfo);
     return tile;

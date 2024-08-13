@@ -6,7 +6,7 @@ class BoolJsonConverter {
 
   BoolJsonConverter(this.fromBool, this.fromJson);
 
-  static int toInt(dynamic json) {
+  static int toInt(json) {
     try {
       if (json is! int) {
         return int.parse(json);
@@ -17,8 +17,8 @@ class BoolJsonConverter {
     }
   }
 
-  static bool toBool(dynamic json) {
-    var jsonToInt = toInt(json);
+  static bool toBool(json) {
+    final jsonToInt = toInt(json);
     return jsonToInt == 1;
   }
 }

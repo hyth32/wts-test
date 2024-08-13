@@ -33,7 +33,7 @@ class _CategoriesScreenState extends BasePageState<CategoriesScreen> {
         return BaseGridviewBuilder(
           itemCount: state.data.length,
           buildContent: (context, index) {
-            var category = state.data[index];
+            final category = state.data[index];
             return BaseNavigationTileWidget(
               pageToNavigate: ProductListScreen(category: category),
               child: CategoryTile(category: category),

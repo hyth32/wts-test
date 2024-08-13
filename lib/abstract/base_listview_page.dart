@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
+import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 
 abstract class BaseListviewPage extends BasePage {
   const BaseListviewPage({
@@ -20,11 +23,10 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   /// Переопределить для создания модели
   B createModel();
 
-  @override
   void initState() {
     scrollController.addListener(_onScroll);
     // TODO: Базовый event на загрузку данных блока
-    // listModel.add(LoadProductList());
+    listModel.add(LoadProductList());
     super.initState();
   }
 
@@ -59,25 +61,15 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
         controller: scrollController,
         padding: const EdgeInsets.all(16),
         separatorBuilder: buildSeparator,
-        itemCount: itemCount + 1,
-        itemBuilder: (context, index) {
-          if (index >= itemCount) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return buildListItem(context, index);
-        },
+        itemCount: itemCount,
+        itemBuilder: buildItems,
       );
     }
     return ListView.builder(
       controller: scrollController,
       padding: const EdgeInsets.all(16),
-      itemCount: itemCount + 1,
-      itemBuilder: (context, index) {
-        if (index >= itemCount) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return buildListItem(context, index);
-      },
+      itemCount: itemCount,
+      itemBuilder: buildItems,
     );
   }
 
@@ -85,7 +77,18 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   Widget buildListItem(BuildContext context, int index);
 
   @protected
-  Future<void> handleRefresh();
+  Widget buildItems(BuildContext context, int index) {
+    if (index >= itemCount) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return buildListItem(context, index);
+  }
+
+  Future<void> handleRefresh() {
+    final completer = Completer();
+    listModel.add(LoadProductList(completer: completer));
+    return completer.future;
+  }
 
   @protected
   Widget buildSeparator(BuildContext context, int index) {

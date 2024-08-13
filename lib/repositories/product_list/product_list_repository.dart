@@ -11,7 +11,7 @@ class ProductListRepository implements AbstractProductListRepository {
     int? categoryId,
     int? offset,
   }) async {
-    var queryParameters = {
+    final queryParameters = {
       'categoryId': '$categoryId',
       'offset': '$offset',
     };

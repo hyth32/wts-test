@@ -8,7 +8,7 @@ import 'package:wts_test/repositories/product_list/models/product_model.dart';
 class ProductDetailsRepository implements AbstractProductDetailsRepository {
   @override
   Future<ApiResponse<Product>> getProductDetails(int productId) async {
-    var queryParameters = {
+    final queryParameters = {
       'productId': '$productId',
     };
     final response = await GetIt.I<BaseApi>().get(

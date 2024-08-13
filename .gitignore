@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/release
 macos/Flutter/GeneratedPluginRegistrant.swift
 macos/Flutter/GeneratedPluginRegistrant.swift
+.metadata
+macos/Flutter/GeneratedPluginRegistrant.swift
+test/widget_test.dart
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/GeneratedPluginRegistrant.swift

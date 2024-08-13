@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_listview_page.dart';
@@ -15,10 +13,11 @@ import 'package:wts_test/repositories/product_list/models/product_model.dart';
 class ProductListScreen extends BaseListviewPage {
   final Category category;
 
-  const ProductListScreen({
+  //Q: вернул `: super(title: category.title)`, пока не представляю, как по другому передать title в конструктор
+  ProductListScreen({
     required this.category,
     super.key,
-  });
+  }) : super(title: category.title);
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
@@ -26,6 +25,12 @@ class ProductListScreen extends BaseListviewPage {
 
 class _ProductListScreenState
     extends BaseListviewPageState<ProductListScreen, ProductListBloc> {
+  @override
+  bool get shouldBeSeparated => !super.shouldBeSeparated;
+
+  @override
+  bool get shouldBeRefreshable => !super.shouldBeRefreshable;
+
   @override
   ProductListBloc createModel() => ProductListBloc(
         GetIt.I<AbstractProductListRepository>(),
@@ -61,14 +66,6 @@ class _ProductListScreenState
       bloc: listModel,
       onLoadingFailurePressed: () => listModel.add(LoadProductList()),
     );
-  }
-
-  @override
-  Future<void> handleRefresh() {
-    //TODO: Можно в BaseListviewPageState
-    final completer = Completer();
-    listModel.add(LoadProductList(completer: completer));
-    return completer.future;
   }
 
   @override

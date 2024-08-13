@@ -13,9 +13,9 @@ class Product extends Equatable {
     required this.productDescription,
     required this.price,
     required this.rating,
+    required this.isAvailableForSale,
     this.imageUrl,
     this.images,
-    required this.isAvailableForSale,
   });
 
   final int productId;
