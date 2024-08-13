@@ -24,15 +24,15 @@ abstract class BaseListviewBloc<T>
     if (isLoading || isAllLoaded) return;
     isLoading = true;
 
-    final result = await fetchData();
+    final response = await fetchData();
 
-    if (result.isError) {
+    if (response.isError) {
       isAllLoaded = true;
-      emit(ErrorState(message: result.error!));
+      emit(ErrorState(message: response.error!));
       return;
     }
-    loadedData.addAll(result.data!);
-    isAllLoaded = result.data!.isEmpty;
+    loadedData.addAll(response.data!);
+    isAllLoaded = response.data!.isEmpty;
     isLoading = false;
     emit(DataFoundState(data: loadedData));
     event.completer?.complete();
