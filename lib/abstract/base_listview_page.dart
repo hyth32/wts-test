@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 abstract class BaseListviewPage extends BasePage {
   const BaseListviewPage({
@@ -40,11 +42,13 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
     }
   }
 
-  void loadMore();
+  void loadMore() {
+    listModel.add(LoadProductList());
+  }
 
   @override
   Widget buildBody(BuildContext context) {
-    final listViewBody = buildListViewBody(context);
+    final listViewBody = buildBlocBuilder(context);
     if (shouldBeRefreshable) {
       return RefreshIndicator(
         child: listViewBody,
@@ -52,6 +56,17 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
       );
     }
     return listViewBody;
+  }
+
+  @protected
+  Widget buildBlocBuilder(BuildContext context) {
+    return BaseBlocBuilder<B, List<Product>>(
+      buildContent: (context, state) {
+        return buildListViewBody(context);
+      },
+      bloc: listModel,
+      onLoadingFailurePressed: () => listModel.add(LoadProductList()),
+    );
   }
 
   @protected

@@ -1,24 +1,16 @@
+import 'package:json_annotation/json_annotation.dart';
 
-// TODO: наследовать от JsonConverter<bool, int?>
-class BoolJsonConverter {
-  final dynamic fromJson;
-  final bool? fromBool;
+class BoolJsonConverter extends JsonConverter<bool, int?> {
+  const BoolJsonConverter();
 
-  BoolJsonConverter(this.fromBool, this.fromJson);
-
-  static int toInt(json) {
-    try {
-      if (json is! int) {
-        return int.parse(json);
-      }
-      return json;
-    } catch (e) {
-      return -1;
-    }
+  @override
+  bool fromJson(int? json) {
+    if (json == null) return false;
+    return json == 1;
   }
 
-  static bool toBool(json) {
-    final jsonToInt = toInt(json);
-    return jsonToInt == 1;
+  @override
+  int? toJson(bool object) {
+    return object ? 1 : 0;
   }
 }
