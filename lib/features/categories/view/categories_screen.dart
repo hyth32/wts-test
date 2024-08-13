@@ -4,6 +4,7 @@ import 'package:wts_test/abstract/base_gridview_builder.dart';
 import 'package:wts_test/abstract/base_navigation_tile_widget.dart';
 import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/features/categories/widgets/category_tile.dart';
 import 'package:wts_test/features/products_list/view/products_list_screen.dart';
 import 'package:wts_test/repositories/category/abstract_category_repository.dart';
@@ -22,7 +23,7 @@ class _CategoriesScreenState extends BasePageState<CategoriesScreen> {
 
   @override
   void initState() {
-    _categoryBloc.add(LoadCategoryList());
+    _categoryBloc.add(BaseBlockLoadEvent());
     super.initState();
   }
 
@@ -41,7 +42,7 @@ class _CategoriesScreenState extends BasePageState<CategoriesScreen> {
           },
         );
       },
-      onLoadingFailurePressed: () => _categoryBloc.add(LoadCategoryList()),
+      onLoadingFailurePressed: () => _categoryBloc.add(BaseBlockLoadEvent()),
       bloc: _categoryBloc,
     );
   }

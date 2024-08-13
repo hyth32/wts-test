@@ -5,10 +5,7 @@ import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-part 'product_details_event.dart';
-
-class ProductDetailsBloc
-    extends BaseBloc<ProductDetailsEvent, BlocState, Product> {
+class ProductDetailsBloc extends BaseBloc<BaseBlocEvent, BlocState, Product> {
   final AbstractProductDetailsRepository productDetailsRepository;
   final int productId;
 
@@ -16,11 +13,11 @@ class ProductDetailsBloc
     this.productDetailsRepository,
     this.productId,
   ) : super(const InitialState()) {
-    on<LoadProductDetails>(_onLoadProductDetails);
+    on<BaseBlockLoadEvent>(_onLoadProductDetails);
   }
 
   Future<void> _onLoadProductDetails(
-    LoadProductDetails event,
+    BaseBlockLoadEvent event,
     Emitter<BlocState> emit,
   ) async {
     final response = await productDetailsRepository.getProductDetails(

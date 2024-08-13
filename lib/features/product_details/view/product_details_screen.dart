@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/features/product_details/widgets/product_details_tile.dart';
 import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 import 'package:wts_test/repositories/product_details/bloc/product_details_bloc.dart';
@@ -28,7 +29,7 @@ class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
     super.initState();
     _productDetailsBloc = ProductDetailsBloc(
         GetIt.I<AbstractProductDetailsRepository>(), widget.product.productId);
-    _productDetailsBloc.add(LoadProductDetails());
+    _productDetailsBloc.add(BaseBlockLoadEvent());
   }
 
   @override
@@ -45,7 +46,7 @@ class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
       },
       bloc: _productDetailsBloc,
       onLoadingFailurePressed: () =>
-          _productDetailsBloc.add(LoadProductDetails()),
+          _productDetailsBloc.add(BaseBlockLoadEvent()),
     );
   }
 }

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
-import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
+// import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 abstract class BaseListviewPage extends BasePage {
@@ -27,8 +28,7 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
 
   void initState() {
     scrollController.addListener(_onScroll);
-    // TODO: Базовый event на загрузку данных блока
-    listModel.add(LoadProductList());
+    listModel.add(BaseBlockLoadEvent());
     super.initState();
   }
 
@@ -43,7 +43,7 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   }
 
   void loadMore() {
-    listModel.add(LoadProductList());
+    listModel.add(BaseBlockLoadEvent());
   }
 
   @override
@@ -65,7 +65,7 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
         return buildListViewBody(context);
       },
       bloc: listModel,
-      onLoadingFailurePressed: () => listModel.add(LoadProductList()),
+      onLoadingFailurePressed: () => listModel.add(BaseBlockLoadEvent()),
     );
   }
 
@@ -101,7 +101,7 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
 
   Future<void> handleRefresh() {
     final completer = Completer();
-    listModel.add(LoadProductList(completer: completer));
+    listModel.add(BaseBlockLoadEvent(completer: completer));
     return completer.future;
   }
 

@@ -37,12 +37,6 @@ class _ProductListScreenState
         widget.category,
       );
 
-  // TODO: можно в BaseListviewPageState, ProductListBloc будет наследовать базовый блок для списков
-  // @override
-  // void loadMore() {
-  //   listModel.add(LoadProductList());
-  // }
-
   @override
   Widget buildListItem(BuildContext context, int index) {
     final product = listModel.loadedData[index];

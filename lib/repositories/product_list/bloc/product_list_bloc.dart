@@ -9,11 +9,11 @@ import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-part 'product_list_event.dart';
+// part 'product_list_event.dart';
 
 // TODO: базовый списочный блок для обработки всех данных, состояний и т.д.
 class ProductListBloc
-    extends BaseBloc<ProductListEvent, BlocState, List<Product>> {
+    extends BaseBloc<BaseBlocEvent, BlocState, List<Product>> {
   final Category? category;
   final AbstractProductListRepository productListRepository;
 
@@ -26,11 +26,11 @@ class ProductListBloc
     this.productListRepository,
     this.category,
   ) : super(const InitialState()) {
-    on<LoadProductList>(_onLoadProductList);
+    on<BaseBlockLoadEvent>(_onLoadProductList);
   }
 
   Future<void> _onLoadProductList(
-    LoadProductList event,
+    BaseBlockLoadEvent event,
     Emitter<BlocState> emit,
   ) async {
     if (isLoading || isAllLoaded) return;
