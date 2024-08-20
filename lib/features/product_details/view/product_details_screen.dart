@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wts_test/abstract/base_page.dart';
-import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
-import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
+import 'package:wts_test/abstract/base_details_page.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 import 'package:wts_test/features/product_details/widgets/product_details_tile.dart';
 import 'package:wts_test/repositories/product_details/abstract_product_details_repository.dart';
 import 'package:wts_test/repositories/product_details/bloc/product_details_bloc.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-class ProductDetailsScreen extends BasePage {
+class ProductDetailsScreen extends BaseDetailsPage {
   ProductDetailsScreen({
     required this.product,
     super.key,
@@ -20,33 +19,19 @@ class ProductDetailsScreen extends BasePage {
   State<StatefulWidget> createState() => _ProductDetailsScreenState();
 }
 
-// TODO: базвый стейт для деталей сущности, по аналогии со списком
-class _ProductDetailsScreenState extends BasePageState<ProductDetailsScreen> {
-  late final ProductDetailsBloc _productDetailsBloc;
+class _ProductDetailsScreenState
+    extends BaseDetailsPageState<ProductDetailsScreen, ProductDetailsBloc> {
+  @override
+  ProductDetailsBloc createModel() => ProductDetailsBloc(
+      GetIt.I<AbstractProductDetailsRepository>(), widget.product.productId);
 
   @override
-  void initState() {
-    super.initState();
-    _productDetailsBloc = ProductDetailsBloc(
-        GetIt.I<AbstractProductDetailsRepository>(), widget.product.productId);
-    _productDetailsBloc.add(BaseBlockLoadEvent());
-  }
-
-  @override
-  Widget buildBody(BuildContext context) {
-    // TODO: Потом можно вынести в базовый стейт будет на generic`ах
-    return BaseBlocBuilder<ProductDetailsBloc, Product?>(
-      buildContent: (context, state) {
-        return ProductDetailsTile(
-          title: state.data!.title,
-          imageUrl: state.data!.imageUrl,
-          price: state.data!.price,
-          product: state.data!,
-        );
-      },
-      bloc: _productDetailsBloc,
-      onLoadingFailurePressed: () =>
-          _productDetailsBloc.add(BaseBlockLoadEvent()),
+  Widget buildItem(BuildContext context, DataFoundState<Product?> state) {
+    return ProductDetailsTile(
+      title: state.data!.title,
+      imageUrl: state.data!.imageUrl,
+      price: state.data!.price,
+      product: state.data!,
     );
   }
 }

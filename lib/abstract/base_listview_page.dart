@@ -5,7 +5,6 @@ import 'package:wts_test/abstract/base_page.dart';
 import 'package:wts_test/abstract/bloc/base_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
-// import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 abstract class BaseListviewPage extends BasePage {
@@ -26,6 +25,7 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   /// Переопределить для создания модели
   B createModel();
 
+  @override
   void initState() {
     scrollController.addListener(_onScroll);
     listModel.add(BaseBlockLoadEvent());
