@@ -20,10 +20,16 @@ class CategoryRepository implements AbstractCategoryRepository {
       'common/category/list',
     );
 
-    return ApiResponseParser.parseListFromResponse(
+    final parsedResponse = ApiResponseParser.parseListFromResponse(
       response,
       key: 'categories',
       fromJson: Category.fromJson,
     );
+
+    if (parsedResponse.data != null) {
+      parsedResponse.data!.insert(0, allProductsCategory);
+    }
+
+    return parsedResponse;
   }
 }
