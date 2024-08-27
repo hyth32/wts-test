@@ -8,8 +8,6 @@ import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
-part 'product_list_event.dart';
-
 class ProductListBloc extends BaseListBloc<BlocState, Product> {
   final Category? category;
   final AbstractProductListRepository productListRepository;
@@ -21,7 +19,7 @@ class ProductListBloc extends BaseListBloc<BlocState, Product> {
 
   @override
   Future<void> loadNextItems(
-      BaseBlocEvent event,
+    BaseBlocEvent event,
     Emitter<BlocState> emit,
   ) async {
     final result = await productListRepository.getProductList(

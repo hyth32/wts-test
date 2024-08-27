@@ -18,8 +18,7 @@ abstract class BaseListBloc<State extends BlocState, T>
   int get offset => _isFullReloading ? 0 : _items.length;
 
   BaseListBloc() : super(const InitialState()) {
-    on<BaseBlockLoadEvent>(loadData);
-    on<BaseBlockLoadMoreEvent>(loadMoreData);
+    on<BaseBlocEvent>(loadData);
     on<ListReloadEvent>(reloadData);
   }
 
@@ -29,20 +28,6 @@ abstract class BaseListBloc<State extends BlocState, T>
   );
 
   Future<void> loadData(
-    BaseBlockLoadEvent event,
-    Emitter<BlocState> emit,
-  ) async {
-    if (isAllLoaded || isLoading) {
-      return;
-    }
-    isLoading = true;
-    if (event is! ListReloadEvent) {
-      emit(const LoadingState());
-    }
-    await loadNextItems(event, emit);
-  }
-
-  Future<void> loadMoreData(
     BaseBlocEvent event,
     Emitter<BlocState> emit,
   ) async {
@@ -50,6 +35,9 @@ abstract class BaseListBloc<State extends BlocState, T>
       return;
     }
     isLoading = true;
+    if (event is BaseBlockLoadEvent) {
+      emit(const LoadingState());
+    }
     await loadNextItems(event, emit);
   }
 
