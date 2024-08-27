@@ -4,6 +4,7 @@ import 'package:wts_test/abstract/bloc/base_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 import 'package:wts_test/repositories/category/abstract_category_repository.dart';
+import 'package:wts_test/repositories/category/category_repository.dart';
 
 part 'category_event.dart';
 
@@ -25,6 +26,7 @@ class CategoryBloc extends BaseBloc<CategoryEvent, BlocState, Category> {
       emit(ErrorState(message: response.error!));
       return;
     }
+    response.data!.insert(0, CategoryRepository.allProductsCategory);
     emit(DataFoundState(data: response.data!));
     event.completer?.complete();
   }
