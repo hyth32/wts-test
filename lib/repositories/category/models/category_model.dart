@@ -15,13 +15,14 @@ class Category extends Equatable {
   const Category({
     required this.categoryId,
     required this.title,
-    this.imageUrl,
     required this.hasSubcategories,
     required this.fullName,
     required this.categoryDescription,
+    this.imageUrl,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
 

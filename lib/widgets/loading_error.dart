@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class LoadingErrorWidget extends StatelessWidget {
-  const LoadingErrorWidget({super.key, required this.onPressed});
+  const LoadingErrorWidget({
+    required this.onPressed,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
             'Something went wrong',

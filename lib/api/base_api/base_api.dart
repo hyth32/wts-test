@@ -32,7 +32,7 @@ class BaseApi {
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    var uri = buildUri(
+    final uri = buildUri(
       relativePath: path,
       queryParameters: queryParameters,
     );

@@ -2,8 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
 
-
-// TODO: Сделать базовый блок для списков наследовать от [BaseBloc].
 // Вынести дублирование работы с данными списков
 abstract class BaseBloc<Event extends BaseBlocEvent, State extends BlocState, T>
     extends Bloc<Event, BlocState> {

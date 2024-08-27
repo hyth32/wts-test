@@ -9,7 +9,6 @@ class CategoryRepository implements AbstractCategoryRepository {
   static const Category allProductsCategory = Category(
     categoryId: 0,
     title: 'Все товары',
-    imageUrl: null,
     hasSubcategories: 0,
     fullName: 'Все товары',
     categoryDescription: 'Все товары в каталоге',
@@ -21,10 +20,16 @@ class CategoryRepository implements AbstractCategoryRepository {
       'common/category/list',
     );
 
-    return ApiResponseParser.parseListFromResponse(
+    final parsedResponse = ApiResponseParser.parseListFromResponse(
       response,
       key: 'categories',
       fromJson: Category.fromJson,
     );
+
+    if (parsedResponse.data != null) {
+      parsedResponse.data!.insert(0, allProductsCategory);
+    }
+
+    return parsedResponse;
   }
 }

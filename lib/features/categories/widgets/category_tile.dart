@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 
 class CategoryTile extends StatelessWidget {
-  const CategoryTile({super.key, required this.category});
+  const CategoryTile({required this.category, super.key});
 
   final Category category;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.grey[850],
         borderRadius: BorderRadius.circular(16),

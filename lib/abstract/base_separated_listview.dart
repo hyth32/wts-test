@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class BaseSeparatedListview extends StatelessWidget {
   const BaseSeparatedListview({
-    super.key,
-    this.scrollController,
     required this.buildContent,
     required this.itemCount,
     required this.separator,
+    super.key,
+    this.scrollController,
     this.edgeInsets,
   });
 

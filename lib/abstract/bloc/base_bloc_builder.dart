@@ -6,10 +6,10 @@ import 'package:wts_test/widgets/loading_error.dart';
 class BaseBlocBuilder<B extends BlocBase<BlocState>, Data>
     extends StatelessWidget {
   const BaseBlocBuilder({
-    super.key,
     required this.bloc,
     required this.buildContent,
     required this.onLoadingFailurePressed,
+    super.key,
   });
 
   final B bloc;

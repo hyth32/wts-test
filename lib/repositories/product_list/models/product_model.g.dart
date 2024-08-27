@@ -12,10 +12,11 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       productDescription: json['productDescription'] as String,
       price: (json['price'] as num).toInt(),
       rating: (json['rating'] as num?)?.toDouble(),
+      isAvailableForSale: const BoolJsonConverter()
+          .fromJson((json['isAvailableForSale'] as num?)?.toInt()),
       imageUrl: json['imageUrl'] as String?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      isAvailableForSale: (json['isAvailableForSale'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -26,5 +27,6 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'rating': instance.rating,
       'imageUrl': instance.imageUrl,
       'images': instance.images,
-      'isAvailableForSale': instance.isAvailableForSale,
+      'isAvailableForSale':
+          const BoolJsonConverter().toJson(instance.isAvailableForSale),
     };

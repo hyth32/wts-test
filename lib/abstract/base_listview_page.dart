@@ -89,36 +89,28 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
         controller: scrollController,
         padding: const EdgeInsets.all(16),
         separatorBuilder: buildSeparator,
-        itemCount: itemCount + 1,
-        itemBuilder: (context, index) {
-          if (index >= itemCount) {
-            if (!listModel.isAllLoaded) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            return const SizedBox.shrink();
-          }
-          return buildListItem(context, index);
-        },
+        itemCount: itemCount,
+        itemBuilder: buildItems,
       );
     }
     return ListView.builder(
       controller: scrollController,
       padding: const EdgeInsets.all(16),
-      itemCount: itemCount + 1,
-      itemBuilder: (context, index) {
-        if (index >= itemCount) {
-          if (!listModel.isAllLoaded) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return const SizedBox.shrink();
-        }
-        return buildListItem(context, index);
-      },
+      itemCount: itemCount,
+      itemBuilder: buildItems,
     );
   }
 
   @protected
   Widget buildListItem(BuildContext context, int index);
+
+  @protected
+  Widget buildItems(BuildContext context, int index) {
+    if (index >= itemCount) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return buildListItem(context, index);
+  }
 
   @protected
   Future<void> handleRefresh() {

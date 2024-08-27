@@ -16,9 +16,9 @@ class ApiResponseParser {
   }
 
   static BaseApiResponse _parseBasicBody(Response response, [String? key]) {
-    var data = response.data as Map<String, dynamic>;
+    final data = response.data as Map<String, dynamic>;
     var responseData = data['data'];
-    var responseMeta = data['meta'];
+    final responseMeta = data['meta'];
     if (key != null) {
       responseData = (responseData as Map<String, dynamic>)[key];
     }
@@ -35,7 +35,7 @@ class ApiResponseParser {
     //   );
     // }
     try {
-      var apiResponseMeta = ApiResponseMeta.fromJson(responseMeta);
+      final apiResponseMeta = ApiResponseMeta.fromJson(responseMeta);
 
       if (!apiResponseMeta.success) {
         return BaseApiResponse(
@@ -73,7 +73,7 @@ class ApiResponseParser {
         );
       }
 
-      var jsonData = (key?.isNotEmpty ?? false)
+      final jsonData = (key?.isNotEmpty ?? false)
           ? (response.dataJson as Map<String, dynamic>)[key]
           : response.dataJson;
       if (jsonData == null) {
@@ -99,8 +99,7 @@ class ApiResponseParser {
   /// Парсинг одного объекта из результата выполненного запроса к API.
   static ApiResponse<T> parseObjectFromResponse<T>(
     BaseApiResponse response, {
-    String? key,
-    required T Function(Map<String, dynamic>) fromJson,
+    required T Function(Map<String, dynamic>) fromJson, String? key,
     String? emptyError,
   }) {
     try {
@@ -111,7 +110,7 @@ class ApiResponseParser {
         );
       }
 
-      var jsonData = (key?.isNotEmpty ?? false)
+      final jsonData = (key?.isNotEmpty ?? false)
           ? (response.dataJson as Map<String, dynamic>)[key]
           : response.dataJson;
       if (jsonData == null) {
