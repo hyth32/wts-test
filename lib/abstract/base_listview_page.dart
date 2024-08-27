@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wts_test/abstract/base_page.dart';
-import 'package:wts_test/abstract/bloc/base_bloc.dart';
-import 'package:wts_test/abstract/bloc/base_bloc_builder.dart';
 import 'package:wts_test/abstract/bloc/base_bloc_event.dart';
-import 'package:wts_test/repositories/product_list/models/product_model.dart';
+import 'package:wts_test/abstract/bloc/base_bloc_state.dart';
+import 'package:wts_test/abstract/bloc/list_bloc/base_list_bloc.dart';
+import 'package:wts_test/abstract/bloc/list_bloc/base_list_bloc_event.dart';
+import 'package:wts_test/widgets/loading_error.dart';
 
 abstract class BaseListviewPage extends BasePage {
   const BaseListviewPage({
@@ -15,8 +17,8 @@ abstract class BaseListviewPage extends BasePage {
 }
 
 abstract class BaseListviewPageState<T extends BaseListviewPage,
-    B extends BaseBloc> extends BasePageState<T> {
-  final bool shouldBeRefreshable = false;
+    B extends BaseListBloc, D> extends BasePageState<T> {
+  final bool shouldBeRefreshable = true;
   final bool shouldBeSeparated = false;
   final ScrollController scrollController = ScrollController();
 
@@ -28,7 +30,7 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   @override
   void initState() {
     scrollController.addListener(_onScroll);
-    listModel.add(BaseBlockLoadEvent());
+    listModel.add(const BaseBlockLoadEvent());
     super.initState();
   }
 
@@ -43,12 +45,14 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   }
 
   void loadMore() {
-    listModel.add(BaseBlockLoadEvent());
+    listModel.add(const BaseBlockLoadMoreEvent());
   }
+
+  int get itemCount => listModel.items.length;
 
   @override
   Widget buildBody(BuildContext context) {
-    final listViewBody = buildBlocBuilder(context);
+    final listViewBody = _buildListView(context);
     if (shouldBeRefreshable) {
       return RefreshIndicator(
         child: listViewBody,
@@ -58,14 +62,23 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
     return listViewBody;
   }
 
-  @protected
-  Widget buildBlocBuilder(BuildContext context) {
-    return BaseBlocBuilder<B, List<Product>>(
-      buildContent: (context, state) {
-        return buildListViewBody(context);
-      },
-      bloc: listModel,
-      onLoadingFailurePressed: () => listModel.add(BaseBlockLoadEvent()),
+  Widget _buildListView(BuildContext context) {
+    return BlocProvider(
+      create: (BuildContext context) => listModel,
+      child: BlocBuilder<B, BlocState>(
+        bloc: listModel,
+        builder: (context, state) {
+          if (state is ErrorState) {
+            return LoadingErrorWidget(
+              onPressed: () => listModel.add(const ListReloadEvent()),
+            );
+          }
+          if (state is DataFoundState<List<D>>) {
+            return buildListViewBody(context);
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 
@@ -99,9 +112,10 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
     return buildListItem(context, index);
   }
 
+  @protected
   Future<void> handleRefresh() {
     final completer = Completer();
-    listModel.add(BaseBlockLoadEvent(completer: completer));
+    listModel.add(ListReloadEvent(completer: completer));
     return completer.future;
   }
 
@@ -109,9 +123,6 @@ abstract class BaseListviewPageState<T extends BaseListviewPage,
   Widget buildSeparator(BuildContext context, int index) {
     return const SizedBox(height: 16);
   }
-
-  @protected
-  int get itemCount;
 
   @override
   void dispose() {

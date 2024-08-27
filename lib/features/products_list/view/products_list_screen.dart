@@ -7,27 +7,24 @@ import 'package:wts_test/features/products_list/widgets/product_tile.dart';
 import 'package:wts_test/repositories/category/models/category_model.dart';
 import 'package:wts_test/repositories/product_list/abstract_product_list_repository.dart';
 import 'package:wts_test/repositories/product_list/bloc/product_list_bloc.dart';
+import 'package:wts_test/repositories/product_list/models/product_model.dart';
 
 class ProductListScreen extends BaseListviewPage {
   final Category category;
 
-  //Q: вернул `: super(title: category.title)`, пока не представляю, как по другому передать title в конструктор
-  ProductListScreen({
+  const ProductListScreen({
     required this.category,
     super.key,
-  }) : super(title: category.title);
+  });
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
 class _ProductListScreenState
-    extends BaseListviewPageState<ProductListScreen, ProductListBloc> {
+    extends BaseListviewPageState<ProductListScreen, ProductListBloc, Product> {
   @override
-  bool get shouldBeSeparated => !super.shouldBeSeparated;
-
-  @override
-  bool get shouldBeRefreshable => !super.shouldBeRefreshable;
+  bool get shouldBeSeparated => true;
 
   @override
   ProductListBloc createModel() => ProductListBloc(
@@ -37,7 +34,7 @@ class _ProductListScreenState
 
   @override
   Widget buildListItem(BuildContext context, int index) {
-    final product = listModel.loadedData[index];
+    final product = listModel.items[index];
     return BaseNavigationTileWidget(
       pageToNavigate: ProductDetailsScreen(product: product),
       child: ProductTile(
@@ -47,7 +44,4 @@ class _ProductListScreenState
       ),
     );
   }
-
-  @override
-  int get itemCount => listModel.loadedData.length;
 }

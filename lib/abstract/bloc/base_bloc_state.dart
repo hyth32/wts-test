@@ -23,7 +23,7 @@ class LoadingState extends BlocState {
 class DataFoundState<T> extends BlocState {
   final T data;
 
-  const DataFoundState({required this.data}) : super();
+  const DataFoundState({required this.data});
 
   @override
   List<Object?> get props => [data];

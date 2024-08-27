@@ -3,15 +3,18 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 
 class BaseBlocEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class BaseBlockLoadEvent extends BaseBlocEvent {
-  BaseBlockLoadEvent({this.completer});
+  const BaseBlocEvent({this.completer});
 
   final Completer? completer;
 
   @override
   List<Object?> get props => [completer];
+}
+
+class BaseBlockLoadEvent extends BaseBlocEvent {
+  const BaseBlockLoadEvent({super.completer});
+}
+
+class BaseBlockLoadMoreEvent extends BaseBlocEvent {
+  const BaseBlockLoadMoreEvent({super.completer});
 }
